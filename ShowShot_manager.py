@@ -1,5 +1,6 @@
+import os
 # directory
-
+#os.makedirs()
 # Default / Global
 #SHOW_DB=[]
 #SHOT_DB=[]
