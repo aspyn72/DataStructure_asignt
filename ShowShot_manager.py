@@ -7,8 +7,8 @@ from typing import List, Dict
 #os.makedirs()
 
 # Global variables - FOLDER.
-# you should put your directory PATH and folder NAME here
-TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST" # you should 
+# you should put your directory PATH and folder NAME here / I put those strings for example
+TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST"
 TEMP_NAME = "ShowDB"
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
 SHOW_NAME = "Jurassic Park"
@@ -33,24 +33,35 @@ class Template:
         else:
             os.makedirs(folder_dir)
             print(f"'{folder_dir}' is created.")
-    '''
-    def create_and_add(self,name,duration,status,filename):
-        pass
+    #---
+    def create_and_add(self,name,duration,status,file_json_name):
+        data = {
+                "Name": name,
+                "Time Druation": duration,
+                "Status": status,
+                "Shots": [],
+                }
+        
         #new_show=Show(name, duration, status)
         #self.SHOW_DB.append(new_show)
-        with open(filename,'w+') as file:
-            json.dump(file,{"name":name,"duration":duration,"status":status})
+        with open(file_json_name,'w') as file:
+            json.dump(data,file,indent=4)
+
+        print(name+" info is created and added")
+        print(type(data))
+        print("=== Dictionary SHOW data +++")
+        print(data)
 
     def delete_folder(self,name):
         pass
-'''
+
+        print(name+" info is deleted")
+
+    def get_all_info(self):
+        print("It's all working")
+#---
     def get_single_info(self,name):
         print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
-
-#-------
-    def get_all_info(self):
-        #for i in 
-        print("It's all working")
 
     # edits
     def edit_name(self,new_name):
@@ -78,28 +89,15 @@ class Show(Template):
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
     
-    def create_and_add(self, name, duration, status, filename):
-        return super().create_and_add(name, duration, status, filename)
-    
-    '''def add_folder(self,filename="filename",name="add_name",duration=70.0,status='si'):
-        with open(filename,'w+') as file:
-            json.dump(file,{"name":name,"duration":duration,"status":status})'''
+    def create_and_add(self, name, duration, status, file_json_name):
+        return super().create_and_add(name, duration, status, file_json_name)
 
-    def delete_folder(self, name):
-        return super().delete_folder(name)
     
+
+
+
     def get_single_info(self, name):
         return super().get_single_info(name)
-    
-    '''def delete_folder(self,name):
-        removed_show=Show(name)
-        self.SHOW_DB.remove(removed_show)
-
-    def get_single_info(self,name):
-        print("It's working")'''
-    
-    def get_all_info(self, name):
-        return super().get_all_info(name)
 
     # edit
 
@@ -111,6 +109,7 @@ class Show(Template):
     
     def edit_status(self, new_status):
         return super().edit_status(new_status)
+
 
 class Shot(Template):
     def __init__(self, name: str, duration: int, status: str, path: str):
@@ -122,24 +121,18 @@ class Shot(Template):
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
 
-    def create_folder(self,name, duration, status):
-        new_shot=Shot(name, duration, status)
-        self.SHOT_DB.append(new_shot)
 
-    def delete_folder(self,name):
-        removed_shot=Shot(name)
-        self.SHOT_DB.remove(removed_shot)
+
 
     def get_single_info(self, name):
         return super().get_single_info(name)
 
-    def read_all_shots(self,filename="ShotList.txt"):
+    '''def read_all_shots(self,filename="ShotList.txt"):
         with open(filename,'r') as file:
             data=json.load(file)
-        return Shot(**data)
+        return Shot(**data)'''
     
     # edit
-    
     def edit_name(self, new_name):
         return super().edit_name(new_name)
     
@@ -150,76 +143,12 @@ class Shot(Template):
         return super().edit_status(new_status)
 
 ##### TESTing here #####
+
 Jurassic=Show("JurassicPark",50,"Done","Bao")
-Jurassical=Shot("SC1_1",5,"Done","JuJu")
-#Jurassic.get_single_info("JurassicPark")
+#Jurassical=Shot("SC1_1",5,"Done","JuJu")
 
-#Template.make_directory(TEMP_DIR_PATH,TEMP_NAME)
-Jurassic.make_directory(SHOW_DIR_PATH,SHOW_NAME)
-Jurassical.make_directory(SHOT_DIR_PATH,SHOT_Name)
-
-######
-#show = Show()
-#shot= Shot()
+Jurassic.create_and_add("JurassicPark",50,"Done","MYSHOWDB.json")
+#Jurassical.make_directory(SHOT_DIR_PATH,SHOT_Name)'''
 
 #assert isinstance(Show, Template)
 #assert isinstance(Shot, Template)
-
-'''
-# Default / Global
-#SHOW_DB=[]
-#SHOT_DB=[]
-
-# Show class
-class Show:
-    def __init__(self,name,status,runningTime,director,genre,date):
-        self.name=name
-        self.status=status
-        self.runningTime=runningTime
-        self.director=director
-        self.genre=genre
-        self.date=date
-
-        self.SHOW_DB=[]
-
-        #to refer SHOT CLASS
-        self.class_shot_access=Shot()
-
-    def create_show(self,name,status,runningTime,director,genre,date):
-        new_show=Show(name,status,runningTime,director,genre,date)
-        self.SHOW_DB.append(new_show)
-
-    def delete_show(self,name):
-        removed_show=Show(name)
-        self.SHOW_DB.remove(removed_show)
-
-
-        # edit
-    def edit_show_status(self,new_show_status):
-        self.status=new_show_status
-
-    # have to refer SHOT CLASS
-    def create_shot(self,name,status,duration,talent,vfx,date):
-        new_shot=Shot(name,status,duration,talent,vfx,date)
-        self.class_shot_access.SHOT_DB.append(new_shot)
-
-    def delete_shot(self,name):
-        removed_shot=Shot(name)
-        self.class_shot_access.SHOT_DB.remove(removed_shot)
-
-        # edit
-    def edit_shot_status(self,new_shot_status):
-        self.class_shot_access.status=new_shot_status
-
-# Shot class
-class Shot(Show):
-    def __init__(self,name,status,duration,talent,vfx,date):
-        self.name=name
-        self.status=status
-        self.duration=duration
-        self.talent=talent # Yes or No / boolean
-        self.vfx=vfx # string
-        self.date=date
-
-        self.SHOT_DB=[]'''
-
