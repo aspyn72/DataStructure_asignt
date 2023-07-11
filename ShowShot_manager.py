@@ -4,6 +4,7 @@ import json
 # directory
 #os.makedirs()
 
+
 class Template:
     def __init__(self, name : str, duration : float, status:str,filename:str):
         self.name = name
@@ -19,6 +20,11 @@ class Template:
     def status(self):
         return self.status'''
     
+    show_data={"Title: ": self.name,
+           "Running Time: ": self.duration,
+           "Status: ": self.status,
+           "Shots: ": []}
+    
     def create_and_add(self,name,duration,status,filename):
         pass
         #new_show=Show(name, duration, status)
@@ -32,6 +38,7 @@ class Template:
     def get_single_info(self,name):
         print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
 
+#-------
     def get_all_info(self):
         #for i in 
         print("It's all working")
