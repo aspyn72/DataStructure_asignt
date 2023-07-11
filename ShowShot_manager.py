@@ -4,11 +4,12 @@ import json
 #os.makedirs()
 
 class Template:
-    def __init__(self, name="ShowShot", duration=90.00, status="Done",filename="filename"):
+    def __init__(self, name : str, duration : float, status:str,filename:str):
         self.name = name
         self.duration=duration
         self.status=status
         self.filename=filename
+
     '''
     def title_or_name(self):
         return self.name
@@ -17,12 +18,10 @@ class Template:
     def status(self):
         return self.status'''
     
-    def create_folder(self,name,duration,status):
+    def create_and_add(self,name,duration,status,filename):
         pass
         #new_show=Show(name, duration, status)
         #self.SHOW_DB.append(new_show)
-
-    def add_folder(self,filename="filename",name="new_name",duration=80.0,status='no'):
         with open(filename,'w+') as file:
             json.dump(file,{"name":name,"duration":duration,"status":status})
 
@@ -30,7 +29,11 @@ class Template:
         pass
 
     def get_single_info(self,name):
-        print("It's working")
+        print("Name: "+name+" / "+"Duration: "+self.duration+" / "+"Status: "+self.status)
+
+    def get_all_info(self):
+        for i in 
+        print("It's all working")
 
     # edits
     def edit_name(self,new_name):
@@ -49,24 +52,32 @@ class Show(Template):
         super(Show, self).__init__(duration=90)
         super(Show, self).__init__(status="In Progress")
         self.SHOW_DB=[]'''
-    def __init__(self, name="Showtime", duration=60.00, status="In Progress"):
-        super().__init__(name, duration, status)
+    def __init__(self, name: str, duration: float, status: str, filename: str):
+        super().__init__(name, duration, status, filename)
         self.SHOW_DB=[]
     
-    def create_folder(self,name, duration, status):
-        new_show=Show(name, duration, status)
-        self.SHOW_DB.append(new_show)
+    def create_and_add(self, name, duration, status, filename):
+        return super().create_and_add(name, duration, status, filename)
     
-    def add_folder(self,filename="filename",name="add_name",duration=70.0,status='si'):
+    '''def add_folder(self,filename="filename",name="add_name",duration=70.0,status='si'):
         with open(filename,'w+') as file:
-            json.dump(file,{"name":name,"duration":duration,"status":status})
+            json.dump(file,{"name":name,"duration":duration,"status":status})'''
 
-    def delete_folder(self,name):
+    def delete_folder(self, name):
+        return super().delete_folder(name)
+    
+    def get_single_info(self, name):
+        return super().get_single_info(name)
+    
+    '''def delete_folder(self,name):
         removed_show=Show(name)
         self.SHOW_DB.remove(removed_show)
 
     def get_single_info(self,name):
-        print("It's working")
+        print("It's working")'''
+    
+    def get_all_info(self, name):
+        return super().get_all_info(name)
 
     # edit
 
@@ -80,8 +91,8 @@ class Show(Template):
         return super().edit_status(new_status)
 
 class Shot(Template):
-    def __init__(self, name="01_A", duration=5.00, status="Done"):
-        super().__init__(name, duration, status)
+    def __init__(self, name: str, duration: float, status: str, filename: str):
+        super().__init__(name, duration, status, filename)
         self.SHOT_DB=[]
     
     def create_folder(self,name, duration, status):
@@ -93,7 +104,7 @@ class Shot(Template):
         self.SHOT_DB.remove(removed_shot)
 
     def get_single_info(self,name):
-        print("It's working")
+        print(name+"It's working")
 
     def read_all_shots(self,filename="ShotList.txt"):
         with open(filename,'r') as file:
@@ -111,12 +122,16 @@ class Shot(Template):
     def edit_status(self, new_status):
         return super().edit_status(new_status)
 
-######
-show = Show()
-shot= Shot()
+##### TESTing here #####
+#Jurassic=Show("JurassicPark",50,"Done","Bao")
+#Jurassic.get_single_info("JurassicPark")
 
-assert isinstance(Show, Template)
-assert isinstance(Shot, Template)
+######
+#show = Show()
+#shot= Shot()
+
+#assert isinstance(Show, Template)
+#assert isinstance(Shot, Template)
 
 '''
 # Default / Global
