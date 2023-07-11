@@ -29,10 +29,10 @@ class Template:
         pass
 
     def get_single_info(self,name):
-        print("Name: "+name+" / "+"Duration: "+self.duration+" / "+"Status: "+self.status)
+        print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
 
     def get_all_info(self):
-        for i in 
+        #for i in 
         print("It's all working")
 
     # edits
@@ -103,8 +103,8 @@ class Shot(Template):
         removed_shot=Shot(name)
         self.SHOT_DB.remove(removed_shot)
 
-    def get_single_info(self,name):
-        print(name+"It's working")
+    def get_single_info(self, name):
+        return super().get_single_info(name)
 
     def read_all_shots(self,filename="ShotList.txt"):
         with open(filename,'r') as file:
@@ -123,8 +123,9 @@ class Shot(Template):
         return super().edit_status(new_status)
 
 ##### TESTing here #####
-#Jurassic=Show("JurassicPark",50,"Done","Bao")
-#Jurassic.get_single_info("JurassicPark")
+Jurassic=Show("JurassicPark",50,"Done","Bao")
+Jurassic.get_single_info("JurassicPark")
+
 
 ######
 #show = Show()
