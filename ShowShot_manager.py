@@ -1,6 +1,57 @@
 import os
 # directory
-#os.makedirs()
+os.makedirs()
+
+class Template:
+    def __init__(self, name=str(""), duration=float(""), status=str("")):
+        self._name = name
+        self._duration=duration
+        self._status=status
+    '''
+    def title_or_name(self):
+        return self.name
+    def runningTime_or_duration(self):
+        return self.duration
+    def status(self):
+        return self.status'''
+    def create_and_add(self,name,duration,status):
+        pass
+        #new_show=Show(name, duration, status)
+        #self.SHOW_DB.append(new_show)
+    def delete(self,name):
+        pass
+    def get_info(self,name):
+        print("It's working")
+
+class Show(Template):
+    def __init__(self):
+        super(Show, self).__init__(name=str)
+        super(Show, self).__init__(duration=)
+        super(Show, self).__init__(status)
+        self.SHOW_DB=[]
+    
+    def create_and_add(self,name, duration, status):
+        new_show=Show(name,name, duration, status)
+        self.SHOW_DB.append(new_show)
+
+     def delete(self,name):
+        removed_show=Show(name)
+        self.SHOW_DB.remove(removed_show)
+
+    def get_info(self,name):
+        print("It's working")
+
+class Shot(Template):
+    pass
+
+######
+show = Show()
+shot= Shot()
+
+assert isinstance(Show, Template)
+assert isinstance(Shot, Template)
+
+'''
 # Default / Global
 #SHOW_DB=[]
 #SHOT_DB=[]
@@ -56,5 +107,7 @@ class Shot(Show):
         self.vfx=vfx # string
         self.date=date
 
-        self.SHOT_DB=[]
+        self.SHOT_DB=[]'''
+
+
 
