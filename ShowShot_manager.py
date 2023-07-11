@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 # directory
 #os.makedirs()
@@ -124,7 +125,8 @@ class Shot(Template):
 
 ##### TESTing here #####
 Jurassic=Show("JurassicPark",50,"Done","Bao")
-Jurassic.get_single_info("JurassicPark")
+Jurassic=Shot("SC1_1",5,"Done","JuJu")
+#Jurassic.get_single_info("JurassicPark")
 
 
 ######
@@ -191,6 +193,3 @@ class Shot(Show):
         self.date=date
 
         self.SHOT_DB=[]'''
-
-
-
