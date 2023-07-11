@@ -1,30 +1,39 @@
 import os
 import sys
 import json
+import shutil
+from typing import List, Dict
 # directory
 #os.makedirs()
 
+# Global variables - FOLDER.
+# you should put your directory PATH and folder NAME here
+TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST" # you should 
+TEMP_NAME = "ShowDB"
+SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
+SHOW_NAME = "Jurassic Park"
+SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
+SHOT_Name= "01_A"
+
+SHOT_QUANTITY = []
+
 
 class Template:
-    def __init__(self, name : str, duration : float, status:str,filename:str):
+    def __init__(self, name : str, duration : int, status:str, path:str):
         self.name = name
         self.duration=duration
         self.status=status
-        self.filename=filename
+        self.path= path
 
+    def make_directory(self,path: str, name: str):
+        folder_dir = os.path.join(path, name)
+
+        if os.path.exists(folder_dir):
+            print(f"'{folder_dir}' already exists.")
+        else:
+            os.makedirs(folder_dir)
+            print(f"'{folder_dir}' is created.")
     '''
-    def title_or_name(self):
-        return self.name
-    def runningTime_or_duration(self):
-        return self.duration
-    def status(self):
-        return self.status'''
-    
-    show_data={"Title: ": self.name,
-           "Running Time: ": self.duration,
-           "Status: ": self.status,
-           "Shots: ": []}
-    
     def create_and_add(self,name,duration,status,filename):
         pass
         #new_show=Show(name, duration, status)
@@ -34,7 +43,7 @@ class Template:
 
     def delete_folder(self,name):
         pass
-
+'''
     def get_single_info(self,name):
         print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
 
@@ -46,23 +55,28 @@ class Template:
     # edits
     def edit_name(self,new_name):
         self.status=new_name
+        print("Name is changed to" + new_name)
 
     def edit_duration(self,new_duration):
         self.status=new_duration
+        print("Duration is changed to" + new_duration)
     
     def edit_status(self,new_status):
         self.status=new_status
+        print("Status is changed to" + new_status)
 
 
 class Show(Template):
-    '''def __init__(self):
-        super(Show, self).__init__(name="Showtime")
-        super(Show, self).__init__(duration=90)
-        super(Show, self).__init__(status="In Progress")
-        self.SHOW_DB=[]'''
-    def __init__(self, name: str, duration: float, status: str, filename: str):
-        super().__init__(name, duration, status, filename)
+
+    def __init__(self, name: str, duration: int, status: str, path: str):
+        super().__init__(name, duration, status, path)
+        self.name=SHOW_NAME
+        self.path=SHOW_DIR_PATH
+
         self.SHOW_DB=[]
+
+    def make_directory(self, path: str, name: str):
+        return super().make_directory(path, name)
     
     def create_and_add(self, name, duration, status, filename):
         return super().create_and_add(name, duration, status, filename)
@@ -99,10 +113,15 @@ class Show(Template):
         return super().edit_status(new_status)
 
 class Shot(Template):
-    def __init__(self, name: str, duration: float, status: str, filename: str):
-        super().__init__(name, duration, status, filename)
+    def __init__(self, name: str, duration: int, status: str, path: str):
+        super().__init__(name, duration, status, path)
+        self.name=SHOT_Name
+
         self.SHOT_DB=[]
     
+    def make_directory(self, path: str, name: str):
+        return super().make_directory(path, name)
+
     def create_folder(self,name, duration, status):
         new_shot=Shot(name, duration, status)
         self.SHOT_DB.append(new_shot)
@@ -132,9 +151,12 @@ class Shot(Template):
 
 ##### TESTing here #####
 Jurassic=Show("JurassicPark",50,"Done","Bao")
-Jurassic=Shot("SC1_1",5,"Done","JuJu")
+Jurassical=Shot("SC1_1",5,"Done","JuJu")
 #Jurassic.get_single_info("JurassicPark")
 
+#Template.make_directory(TEMP_DIR_PATH,TEMP_NAME)
+Jurassic.make_directory(SHOW_DIR_PATH,SHOW_NAME)
+Jurassical.make_directory(SHOT_DIR_PATH,SHOT_Name)
 
 ######
 #show = Show()
@@ -200,3 +222,4 @@ class Shot(Show):
         self.date=date
 
         self.SHOT_DB=[]'''
+
