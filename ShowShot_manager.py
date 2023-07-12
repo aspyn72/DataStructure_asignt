@@ -7,10 +7,13 @@ from typing import List, Dict
 
 # Global variables - FOLDER.
 # you should put your directory PATH and folder NAME here / I put those strings for example
+    # Directory Path to save Show DB and Shot DB (folders and .json files) inside
 TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST/"
-TEMP_NAME = "ShowDB"
+TEMP_NAME = "Show_Shot_DB" 
+    # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
 SHOW_NAME = "JurassicPark"
+    # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
 SHOT_Name= "01_A"
 
@@ -61,6 +64,8 @@ class Template:
             #print(filePathNameWExt)
             #read the file
             self.list_for_org=[]
+            #self.list_for_org.append(data)
+
             with open(filePathNameWExt,'w') as file:
                 json.dump(self.list_for_org,file)
 
@@ -104,12 +109,32 @@ class Template:
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
 
-
     def get_all_info(self,path,file_json_name):
-        print("It's all working")
+         filePathNameWExt = path + file_json_name
 
-    def get_single_info(self,name):
-        print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
+         with open(filePathNameWExt, 'r') as file:
+            self.list_to_print = json.load(file)
+            print("")
+            print("===== Get ALL information =====")
+            print("")
+            print(self.list_to_print)
+            print("")
+            print("===== END =====")
+            print("")
+
+    def get_single_info(self,name,path,file_json_name):
+        filePathNameWExt = path + file_json_name
+        
+        
+        with open(filePathNameWExt, 'r') as file:
+            self.list_to_print = json.load(file)
+            print("")
+            print("===== Get information =====")
+            print("")
+            print(self.list_to_print)
+            print("")
+            print("===== END =====")
+            print("")
 
     # edits
     def edit_name(self,path,file_json_name,name,new_name):
@@ -221,7 +246,8 @@ Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
 #Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","Maynot")
 #May.create("Maybe",40,"Inprogress",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+Jurassic.get_all_info(SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
 
 
