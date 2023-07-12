@@ -3,8 +3,6 @@ import sys
 import json
 import shutil
 from typing import List, Dict
-# directory
-#os.makedirs()
 
 # Global variables - FOLDER.
 # you should put your directory PATH and folder NAME here / I put those strings for example
@@ -33,18 +31,19 @@ class Template:
         else:
             os.makedirs(folder_dir)
             print(f"'{folder_dir}' is created.")
-    #---
-    def create_and_add(self,name,duration,status,file_json_name):
+
+    def create_and_add(self,name,duration,status,path,file_json_name):
         data = {
                 "Name": name,
                 "Time Druation": duration,
                 "Status": status,
                 "Shots": [],
                 }
-        
+        filePathNameWExt = path + '/' + file_json_name +'.json'
+
         #new_show=Show(name, duration, status)
         #self.SHOW_DB.append(new_show)
-        with open(file_json_name,'w') as file:
+        with open(filePathNameWExt,'w') as file:
             json.dump(data,file,indent=4)
 
         print(name+" info is created and added")
@@ -89,8 +88,8 @@ class Show(Template):
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
     
-    def create_and_add(self, name, duration, status, file_json_name):
-        return super().create_and_add(name, duration, status, file_json_name)
+    def create_and_add(self, name, duration, status, path, file_json_name):
+        return super().create_and_add(name, duration, status, path, file_json_name)
 
     
 
@@ -146,9 +145,9 @@ class Shot(Template):
 
 Jurassic=Show("JurassicPark",50,"Done","Bao")
 #Jurassical=Shot("SC1_1",5,"Done","JuJu")
+Jurassic.make_directory(SHOT_DIR_PATH,SHOT_Name)
+Jurassic.create_and_add("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB")
 
-Jurassic.create_and_add("JurassicPark",50,"Done","MYSHOWDB.json")
-#Jurassical.make_directory(SHOT_DIR_PATH,SHOT_Name)'''
 
 #assert isinstance(Show, Template)
 #assert isinstance(Shot, Template)
