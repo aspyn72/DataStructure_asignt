@@ -124,18 +124,25 @@ class Template:
 
     def get_single_info(self,name,path,file_json_name):
         filePathNameWExt = path + file_json_name
-        
-        
-        with open(filePathNameWExt, 'r') as file:
-            self.list_to_print = json.load(file)
-            print("")
-            print("===== Get information =====")
-            print("")
-            print(self.list_to_print)
-            print("")
-            print("===== END =====")
-            print("")
 
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_infor = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        for sinfo in self.list_for_infor:
+            for key, val in sinfo.items():
+                if val==name:
+                    print("")
+                    print("===== Get information =====")
+                    print("")
+                    print(sinfo)
+                    print("")
+                    print("===== END =====")
+                    print("")
+                else:
+                    pass
+                    #print(str(deletedinfo)+" I'm good")
+        
     # edits
     def edit_name(self,path,file_json_name,name,new_name):
         
@@ -184,9 +191,12 @@ class Show(Template):
     
     def delete(self, name, path, file_json_name):
         return super().delete(name, path, file_json_name)
+    
+    def get_all_info(self, path, file_json_name):
+        return super().get_all_info(path, file_json_name)
 
-    def get_single_info(self, name):
-        return super().get_single_info(name)
+    def get_single_info(self, name, path, file_json_name):
+        return super().get_single_info(name, path, file_json_name)
 
     # edit
 
@@ -247,7 +257,8 @@ Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
 #May.create("Maybe",40,"Inprogress",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-Jurassic.get_all_info(SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Jurassic.get_all_info(SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Parasite.get_single_info("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
 
 
