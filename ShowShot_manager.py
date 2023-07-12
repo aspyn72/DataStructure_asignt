@@ -1,4 +1,5 @@
 import os
+from os import path as osPath
 import sys
 import json
 import shutil
@@ -6,10 +7,10 @@ from typing import List, Dict
 
 # Global variables - FOLDER.
 # you should put your directory PATH and folder NAME here / I put those strings for example
-TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST"
+TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST/"
 TEMP_NAME = "ShowDB"
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
-SHOW_NAME = "Jurassic Park"
+SHOW_NAME = "JurassicPark"
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
 SHOT_Name= "01_A"
 
@@ -32,40 +33,96 @@ class Template:
             os.makedirs(folder_dir)
             print(f"'{folder_dir}' is created.")
 
-    def create_and_add(self,name,duration,status,path,file_json_name):
+    def create(self,name,duration,status,path,file_json_name):
         data = {
-                "Name": name,
-                "Time Druation": duration,
-                "Status": status,
-                "Shots": [],
-                }
-        filePathNameWExt = path + '/' + file_json_name +'.json'
+                    "Name": name,
+                    "Time Druation": duration,
+                    "Status": status,
+                    "Shots": [],
+                    }
+        #self.list_for_org=[]
+        filePathNameWExt = path + file_json_name
 
-        #new_show=Show(name, duration, status)
-        #self.SHOW_DB.append(new_show)
-        with open(filePathNameWExt,'w') as file:
-            json.dump(data,file,indent=4)
+        print(filePathNameWExt)
+        
+        if osPath.exists(filePathNameWExt):
+            print("exists")
+            #self.list_for_org.append(data)
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+            self.list_for_org.append(data)
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+            #for dic in self.list_for_org:
 
-        print(name+" info is created and added")
-        print(type(data))
-        print("=== Dictionary SHOW data +++")
-        print(data)
+        else:
+            print("don't exists")
 
-    def delete_folder(self,name):
-        pass
+            #filePathNameWExt = path + file_json_name #+'.json'
+            #print(filePathNameWExt)
+            #read the file
+            self.list_for_org=[]
+            with open(filePathNameWExt,'w') as file:
+                json.dump(self.list_for_org,file)
 
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+            #print the data that we save in our variable type list
+            print(self.list_for_org)
+            print(type(self.list_for_org))
+
+            self.list_for_org.append(data)
+
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+
+            print(name+" info is created and added")
+            print(type(data))
+            print("=== Dictionary SHOW data +++")
+            print(data)
+
+    def delete(self,name,path,file_json_name):
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            data = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        if name in data:
+            del data[name]
+
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(data, file, indent=4)
+        
         print(name+" info is deleted")
 
-    def get_all_info(self):
+    def get_all_info(self,path,file_json_name):
         print("It's all working")
 #---
     def get_single_info(self,name):
         print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
 
     # edits
-    def edit_name(self,new_name):
-        self.status=new_name
-        print("Name is changed to" + new_name)
+    def edit_name(self,path,file_json_name,name,new_name):
+        
+        self.data_update_dictionary={"name": name}
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, mode="rb") as file:
+            self.loaded_data_dictionary=json.load(file)
+            print(self.loaded_data_dictionary)
+
+        for value in self.data_update_dictionary.values():
+            #print(key)
+            print(value)
+            if self.loaded_data_dictionary.get(value) != None:
+                print("load data json filedictionary has this key: ", key )
+                self.loaded_data_dictionary[value] = new_name
+
+
+            else:
+                print("NO KEY IN load data json file")
+
 
     def edit_duration(self,new_duration):
         self.status=new_duration
@@ -88,9 +145,14 @@ class Show(Template):
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
     
-    def create_and_add(self, name, duration, status, path, file_json_name):
-        return super().create_and_add(name, duration, status, path, file_json_name)
-
+    def create(self, name, duration, status, path, file_json_name):
+        return super().create(name, duration, status, path, file_json_name)
+    
+    #def add(self, name, duration, status, path, file_json_name):
+    #    return super().add(name, duration, status, path, file_json_name)
+    
+    def delete_folder(self, file_json_name, name):
+        return super().delete_folder(file_json_name, name)
     
 
 
@@ -100,8 +162,8 @@ class Show(Template):
 
     # edit
 
-    def edit_name(self, new_name):
-        return super().edit_name(new_name)
+    def edit_name(self, path, file_json_name, name, new_name):
+        return super().edit_name(path, file_json_name, name, new_name)
     
     def edit_duration(self, new_duration):
         return super().edit_duration(new_duration)
@@ -119,9 +181,9 @@ class Shot(Template):
     
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
-
-
-
+    
+    def create(self, name, duration, status, path, file_json_name):
+        return super().create(name, duration, status, path, file_json_name)
 
     def get_single_info(self, name):
         return super().get_single_info(name)
@@ -143,10 +205,19 @@ class Shot(Template):
 
 ##### TESTing here #####
 
-Jurassic=Show("JurassicPark",50,"Done","Bao")
+Jurassic=Show("JurassicPark",50,"Done",SHOW_DIR_PATH)
+May=Show("Maybe",40,"Inprogress",SHOW_DIR_PATH)
+Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
 #Jurassical=Shot("SC1_1",5,"Done","JuJu")
-Jurassic.make_directory(SHOT_DIR_PATH,SHOT_Name)
-Jurassic.create_and_add("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB")
+#Jurassic.make_directory(SHOT_DIR_PATH,SHOT_Name)
+#May.make_directory(SHOT_DIR_PATH,SHOT_Name)
+#May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#May.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","Maybe","Maynot")
+#Jurassic.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Parasite.create("Parasite",90,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","Maynot")
+#May.create("Maybe",40,"Inprogress",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
 
 
 #assert isinstance(Show, Template)
