@@ -46,7 +46,7 @@ class Template:
         print(filePathNameWExt)
         
         if osPath.exists(filePathNameWExt):
-            print("exists")
+            print(".json file exists")
             #self.list_for_org.append(data)
             with open(filePathNameWExt) as file:
                 self.list_for_org = json.load(file)
@@ -56,8 +56,7 @@ class Template:
             #for dic in self.list_for_org:
 
         else:
-            print("don't exists")
-
+            print("create .json file")
             #filePathNameWExt = path + file_json_name #+'.json'
             #print(filePathNameWExt)
             #read the file
@@ -85,20 +84,30 @@ class Template:
         filePathNameWExt = path + file_json_name
 
         with open(filePathNameWExt, 'r') as file:
-            data = json.load(file)
+            self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
-        if name in data:
-            del data[name]
-
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    #del_dic=deletedinfo[key]
+                    #print(deletedinfo[key])
+                    #print(val)
+                    self.list_for_org.remove(deletedinfo)
+                    print("It's deleted")
+                    #del self.list_for_org[i]
+                    #del deletedinfo[key]
+                else:
+                    pass
+                    #print(str(deletedinfo)+" I'm good")
+    
         with open(filePathNameWExt, 'w') as file:
-            json.dump(data, file, indent=4)
-        
-        print(name+" info is deleted")
+            json.dump(self.list_for_org, file, indent=4)
+
 
     def get_all_info(self,path,file_json_name):
         print("It's all working")
-#---
+
     def get_single_info(self,name):
         print("Name: "+name+" / "+"Duration: "+str(self.duration)+" mins / "+"Status: "+self.status)
 
@@ -148,14 +157,8 @@ class Show(Template):
     def create(self, name, duration, status, path, file_json_name):
         return super().create(name, duration, status, path, file_json_name)
     
-    #def add(self, name, duration, status, path, file_json_name):
-    #    return super().add(name, duration, status, path, file_json_name)
-    
-    def delete_folder(self, file_json_name, name):
-        return super().delete_folder(file_json_name, name)
-    
-
-
+    def delete(self, name, path, file_json_name):
+        return super().delete(name, path, file_json_name)
 
     def get_single_info(self, name):
         return super().get_single_info(name)
@@ -217,6 +220,8 @@ Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
 #Parasite.create("Parasite",90,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","Maynot")
 #May.create("Maybe",40,"Inprogress",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
 
 
