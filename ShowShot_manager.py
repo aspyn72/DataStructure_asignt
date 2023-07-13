@@ -39,7 +39,7 @@ class Template:
     def create(self,name,duration,status,path,file_json_name):
         data = {
                     "Name": name,
-                    "Time Druation": duration,
+                    "Time Duration": duration,
                     "Status": status,
                     "Shots": [],
                     }
@@ -95,13 +95,8 @@ class Template:
         for deletedinfo in self.list_for_org:
             for key, val in deletedinfo.items():
                 if val==name:
-                    #del_dic=deletedinfo[key]
-                    #print(deletedinfo[key])
-                    #print(val)
                     self.list_for_org.remove(deletedinfo)
                     print("It's deleted")
-                    #del self.list_for_org[i]
-                    #del deletedinfo[key]
                 else:
                     pass
                     #print(str(deletedinfo)+" I'm good")
@@ -145,33 +140,65 @@ class Template:
         
     # edits
     def edit_name(self,path,file_json_name,name,new_name):
-        
-        self.data_update_dictionary={"name": name}
         filePathNameWExt = path + file_json_name
 
-        with open(filePathNameWExt, mode="rb") as file:
-            self.loaded_data_dictionary=json.load(file)
-            print(self.loaded_data_dictionary)
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
 
-        for value in self.data_update_dictionary.values():
-            #print(key)
-            print(value)
-            if self.loaded_data_dictionary.get(value) != None:
-                print("load data json filedictionary has this key: ", key )
-                self.loaded_data_dictionary[value] = new_name
-
-
-            else:
-                print("NO KEY IN load data json file")
-
-
-    def edit_duration(self,new_duration):
-        self.status=new_duration
-        print("Duration is changed to" + new_duration)
+        # Modify the data structure to remove the desired dictionary
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    #self.list_for_org.remove(deletedinfo)
+                    deletedinfo['Name']=new_name
+                    print("Name is updated")
+                    break
+                else:
+                    print("There's nothing to edit")
     
-    def edit_status(self,new_status):
-        self.status=new_status
-        print("Status is changed to" + new_status)
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
+
+    def edit_duration(self,path,file_json_name,name,new_duration):
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    #self.list_for_org.remove(deletedinfo)
+                    deletedinfo['Time Duration']=new_duration
+                    print("Duration is updated")
+                    break
+                else:
+                    print("There's nothing to edit")
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+    
+    def edit_status(self,path,file_json_name,name,new_status):
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo['Status']=new_status
+                    print("Status is updated")
+                    break
+                else:
+                    pass
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
 
 
 class Show(Template):
@@ -180,7 +207,6 @@ class Show(Template):
         super().__init__(name, duration, status, path)
         self.name=SHOW_NAME
         self.path=SHOW_DIR_PATH
-
         self.SHOW_DB=[]
 
     def make_directory(self, path: str, name: str):
@@ -203,12 +229,11 @@ class Show(Template):
     def edit_name(self, path, file_json_name, name, new_name):
         return super().edit_name(path, file_json_name, name, new_name)
     
-    def edit_duration(self, new_duration):
-        return super().edit_duration(new_duration)
+    def edit_duration(self, path, file_json_name, duration, new_duration):
+        return super().edit_duration(path, file_json_name, duration, new_duration)
     
-    def edit_status(self, new_status):
-        return super().edit_status(new_status)
-
+    def edit_status(self, path, file_json_name, name, new_status):
+        return super().edit_status(path, file_json_name, name, new_status)
 
 class Shot(Template):
     def __init__(self, name: str, duration: int, status: str, path: str):
@@ -222,24 +247,25 @@ class Shot(Template):
     
     def create(self, name, duration, status, path, file_json_name):
         return super().create(name, duration, status, path, file_json_name)
+    
+    def delete(self, name, path, file_json_name):
+        return super().delete(name, path, file_json_name)
 
-    def get_single_info(self, name):
-        return super().get_single_info(name)
-
-    '''def read_all_shots(self,filename="ShotList.txt"):
-        with open(filename,'r') as file:
-            data=json.load(file)
-        return Shot(**data)'''
+    def get_all_info(self, path, file_json_name):
+        return super().get_all_info(path, file_json_name)
+    
+    def get_single_info(self, name, path, file_json_name):
+        return super().get_single_info(name, path, file_json_name)
     
     # edit
-    def edit_name(self, new_name):
-        return super().edit_name(new_name)
+    def edit_name(self, path, file_json_name, name, new_name):
+        return super().edit_name(path, file_json_name, name, new_name)
     
-    def edit_duration(self, new_duration):
-        return super().edit_duration(new_duration)
+    def edit_duration(self, path, file_json_name, name, new_duration):
+        return super().edit_duration(path, file_json_name, name, new_duration)
     
-    def edit_status(self, new_status):
-        return super().edit_status(new_status)
+    def edit_status(self, path, file_json_name, name, new_status):
+        return super().edit_status(path, file_json_name, name, new_status)
 
 ##### TESTing here #####
 
@@ -259,6 +285,9 @@ Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
 #Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Jurassic.get_all_info(SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #Parasite.get_single_info("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","wow")
+#Jurassic.edit_duration(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark",10)
+#Parasite.edit_status(SHOW_DIR_PATH,"MY_SHOW_DB.json","Parasite","In Progress")
 #Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
 
 
