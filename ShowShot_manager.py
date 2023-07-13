@@ -5,7 +5,7 @@ import json
 import shutil
 from typing import List, Dict
 
-# Global variables for FOLDER
+# ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
     # Directory Path to save Show DB and Shot DB (folders and .json files) inside
 TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST/"
