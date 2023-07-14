@@ -95,7 +95,7 @@ class Template:
                     self.list_for_org.remove(deletedinfo)
                     print("It's deleted")
                 else:
-                    print("There's no show named " + name)
+                    print("There's nothing named " + name)
                     break
 
          # Update the content of .json file which removed desired show(or shot) data
@@ -133,7 +133,7 @@ class Template:
                     print("")
                     break
                 else:
-                    print("There's no show named "+name)
+                    print("There's nothing named "+name)
                     break
         
     ## EDIT data part ##
@@ -151,7 +151,8 @@ class Template:
                     print("Name is updated")
                     break
                 else:
-                    print("There's nothing to edit")
+                    print("There's nothing named "+name)
+                    break
     
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
@@ -171,7 +172,8 @@ class Template:
                     print("Duration is updated")
                     break
                 else:
-                    print("There's nothing to edit")
+                    print("There's nothing named "+name)
+                    break
     
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
@@ -189,7 +191,8 @@ class Template:
                     print("Status is updated")
                     break
                 else:
-                    pass
+                    print("There's nothing named" + name)
+                    break
     
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
@@ -279,7 +282,8 @@ ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 #ShowFunc.delete("Zootopia",SHOW_DIR_PATH,"All_SHOW_DB.json")
 #ShowFunc.get_single_info("JurassicPark",SHOW_DIR_PATH,"All_SHOW_DB.json")
 #ShowFunc.get_all_info(SHOW_DIR_PATH,"All_SHOW_DB.json")
-ShowFunc.edit_name(SHOW_DIR_PATH,"All_SHOW_DB.json","Parasite","Bong Jun Ho's Parasite")
+#ShowFunc.edit_name(SHOW_DIR_PATH,"All_SHOW_DB.json","Parasite","Bong Jun Ho's Parasite")
+ShowFunc.edit_duration(SHOW_DIR_PATH,"All_SHOW_DB.json","JurassicPark",40)
 
 #ShotFunc.get_all_info()
 #ShotFunc.edit_duration()
