@@ -12,7 +12,7 @@ TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataSt
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
-SHOW_NAME = "My_Show"
+SHOW_NAME = "Zootopia"
     # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
 SHOT_Name= "01_A"
@@ -95,7 +95,9 @@ class Template:
                     self.list_for_org.remove(deletedinfo)
                     print("It's deleted")
                 else:
-                    pass
+                    print("There's no show named " + name)
+                    break
+
          # Update the content of .json file which removed desired show(or shot) data
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
@@ -129,8 +131,10 @@ class Template:
                     print("")
                     print("===== END =====")
                     print("")
+                    break
                 else:
-                    pass
+                    print("There's no show named "+name)
+                    break
         
     ## EDIT data part ##
 
@@ -241,7 +245,7 @@ class Shot(Template):
     
     def delete(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
-
+    
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
@@ -258,7 +262,7 @@ class Shot(Template):
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)
 
-# ======== Variables to CALL CLASS ========
+# =============== Variables to CALL CLASS =================
 # you can use these or create on your own
 ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
 ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
@@ -266,26 +270,20 @@ ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 # ======== Use this line below to create DIRECTORY ========
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
     # You can create show (or shot) folder for different shows (or shots) as many as you want
-ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
+#ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
 
-ShowFunc.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-ShotFunc.create("1A",24,"Done",SHOT_DIR_PATH,"My_Shot_DB.json")
+# ==========================================================
+#ShowFunc.create("Zootopia",90,"Will be filmmed",SHOW_DIR_PATH,"All_SHOW_DB.json")
+#ShotFunc.create("01_a",24,"in Progress",SHOT_DIR_PATH,"Jurassic_shot_DB")
 
-# ========== TESTing here ========== #
-#May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#May.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","Maybe","Maynot")
-#Jurassic.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Parasite.create("Parasite",90,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","Maynot")
-#May.create("Maybe",40,"Inprogress",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Jurassic.delete("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Jurassic.get_all_info(SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Parasite.get_single_info("JurassicPark",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#Jurassic.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark","wow")
-#Jurassic.edit_duration(SHOW_DIR_PATH,"MY_SHOW_DB.json","JurassicPark",10)
-#Parasite.edit_status(SHOW_DIR_PATH,"MY_SHOW_DB.json","Parasite","In Progress")
-#Jurassic.delete_folder("MY_SHOW_DB.json","JurassicPark")
+#ShowFunc.delete("Zootopia",SHOW_DIR_PATH,"All_SHOW_DB.json")
+#ShowFunc.get_single_info("JurassicPark",SHOW_DIR_PATH,"All_SHOW_DB.json")
+#ShowFunc.get_all_info(SHOW_DIR_PATH,"All_SHOW_DB.json")
+ShowFunc.edit_name(SHOW_DIR_PATH,"All_SHOW_DB.json","Parasite","Bong Jun Ho's Parasite")
+
+#ShotFunc.get_all_info()
+#ShotFunc.edit_duration()
+
 
 
 #assert isinstance(Show, Template)
