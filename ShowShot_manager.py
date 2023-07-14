@@ -268,8 +268,8 @@ ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
     # You can create show (or shot) folder for different shows (or shots) as many as you want
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
 
-#ShowFunc.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
-#ShotFunc.create("1A",24,"Done",SHOT_DIR_PATH,"My_Shot_DB.json")
+ShowFunc.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+ShotFunc.create("1A",24,"Done",SHOT_DIR_PATH,"My_Shot_DB.json")
 
 # ========== TESTing here ========== #
 #May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
