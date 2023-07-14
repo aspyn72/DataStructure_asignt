@@ -7,16 +7,16 @@ from typing import List, Dict
 
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
-    # Directory Path to save Show DB and Shot DB (folders and .json files) inside
+# ****** put Directory Path to save Show DB and Shot DB (folders and .json files) inside ****** #
 TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST/"
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
-SHOW_NAME = "Your_Show"
+SHOW_NAME = "My_Show"
     # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
 SHOT_Name= "01_A"
-
+# =======================================================
 
 # ======== CLASSes Starts Here ========
 
@@ -40,7 +40,7 @@ class Template:
             print(f"'{folder_dir}' is created.")
 
     # CREATE shows or shots and will ADD to .json file
-    def create(self,name: str, duration: int, status: str, path: str, file_json_name: str):
+    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
         data = {
                     "Name": name,
                     "Time Duration": duration,
@@ -258,16 +258,20 @@ class Shot(Template):
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)
 
+# ======== Variables to CALL CLASS ========
+# you can use these or create on your own
+ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
+ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 
+# ======== Use this line below to create DIRECTORY ========
+    # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
+    # You can create show (or shot) folder for different shows (or shots) as many as you want
+ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
+
+#ShowFunc.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
+#ShotFunc.create("1A",24,"Done",SHOT_DIR_PATH,"My_Shot_DB.json")
 
 # ========== TESTing here ========== #
-
-Jurassic=Show("JurassicPark",50,"Done",SHOW_DIR_PATH)
-May=Show("Maybe",40,"Inprogress",SHOW_DIR_PATH)
-Parasite=Show("Parasite",90,"Done",SHOW_DIR_PATH)
-#Jurassical=Shot("SC1_1",5,"Done","JuJu")
-#Jurassic.make_directory(SHOT_DIR_PATH,SHOT_Name)
-#May.make_directory(SHOT_DIR_PATH,SHOT_Name)
 #May.delete("Maybe",SHOW_DIR_PATH,"MY_SHOW_DB.json")
 #May.edit_name(SHOW_DIR_PATH,"MY_SHOW_DB.json","Maybe","Maynot")
 #Jurassic.create("JurassicPark",50,"Done",SHOW_DIR_PATH,"MY_SHOW_DB.json")
