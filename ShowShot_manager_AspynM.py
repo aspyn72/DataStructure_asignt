@@ -8,7 +8,7 @@ from typing import List, Dict
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
 # ****** put Directory Path to save Show DB and Shot DB (folders and .json files) inside ****** #
-TEMP_DIR_PATH = "/Users/moon/Desktop/TEST/"
+TEMP_DIR_PATH = "/Users/moon/Desktop/"
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
