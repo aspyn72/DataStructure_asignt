@@ -47,30 +47,30 @@ Belows are the functions you can use
 
    > `create(name: str, duration: int, status: str, path: str, file_json_name: str)`: 
    <br>Creates the data of show or shot with the specified details as a dictionary form and adds it to the JSON file.
-   <br><font size="1.8"> You should put **name**, **duration**, and **status** of the show or shot. Then, put the **path** where you want to (did) save JSON file and **name of the JSON file**. </font>
+   <br><font size="1.8"> You should put **name**, **duration**, and **status** of the show or shot. Then, put the **path** where you want to (did) save JSON file and **name of the JSON file(<font size="1.9">you must put '.json' at the end of the name)**. </font>
 
    >`delete(name: str, path: str, file_json_name: str)`:
    <br> Deletes a show or shot information with the given name from the JSON file.
-   <br><font size="1.8"> You should put **name** of the show or shot. Then, put the **path** where you saved JSON file and **name of the JSON file** . </font>
+   <br><font size="1.8"> You should put **name** of the show or shot. Then, put the **path** where you saved JSON file and **name of the JSON file(<font size="1.9">you must put '.json' at the end of the name)** . </font>
 
    > `get_all_info(path: str, file_json_name: str)`: <br>Prints all the information stored in the JSON file.
-   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file**. </font>
+   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file(<font size="1.9">you must put '.json' at the end of the name)**. </font>
 
    >`get_single_info(name: str, path: str, file_json_name: str)`: 
    <br>Prints the information of a specific show or shot with the given name.
-   <br><font size="1.8"> You should put the **name** of the show or shot you want to get info of, **path** where you saved JSON file and **name of the JSON file**. </font>
+   <br><font size="1.8"> You should put the **name** of the show or shot you want to get info of, **path** where you saved JSON file and **name of the JSON file (<font size="1.9">you must put '.json' at the end of the name)**. </font>
 
    > `edit_name(path: str, file_json_name: str, name: str, new_name: str)`: 
    <br>Updates the name of a show or shot with the given name to a new name.
-   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file**. Then, put the **original name** of the show or shot, and the **new name** next to it. </font>
+   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file (<font size="1.9">you must put '.json' at the end of the name)**. Then, put the **original name** of the show or shot, and the **new name** next to it. </font>
 
    > `edit_duration(path: str, file_json_name: str, name: str, new_duration: int)`:
    <br> Updates the duration of a show or shot with the given name to a new duration.
-   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file**. Then, put the **name** of the show or shot, and the **new duration** next to it. </font>
+   <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file (<font size="1.9">you must put '.json' at the end of the name)**. Then, put the **name** of the show or shot, and the **new duration** next to it. </font>
    
    > `edit_status(path: str, file_json_name: str, name: str, new_status: str)`: 
    <br>Updates the status of a show or shot with the given name to a new status.
-  <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file**. Then, put the **name** of the show or shot, and the **new status** next to it. </font>
+  <br><font size="1.8"> You should put the **path** where you saved JSON file and **name of the JSON file (<font size="1.9">you must put '.json' at the end of the name)**. Then, put the **name** of the show or shot, and the **new status** next to it. </font>
 
 <br>
 
