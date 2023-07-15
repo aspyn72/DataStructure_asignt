@@ -11,27 +11,30 @@ TEST_SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
 TEST_SHOW_NAME = "Mimic"
     # need to put shot folder name here to avoid putting the path manually
 TEST_SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
-TEST_SHOT_NAME= "01_B"
+TEST_SHOT_NAME= "01_A"
 
 class TestTemplate(unittest.TestCase):
 
     def setUp(self):
         # Create a temporary directory for testing
-        self.temp_dir = Master_dir
+        self.temp_dir = TEST_TEMP_DIR_PATH
         os.mkdir(self.temp_dir)
 
+        self.show_dir=TEST_SHOW_DIR_PATH
+        self.shot_dir=TEST_SHOT_DIR_PATH
+
         # Create an instance of Show and Shot classes
-        self.show = Show("FilmTitle",1000,"Done",self.temp_dir)
-        self.shot = Shot("01_B", 30, "Completed", self.temp_dir)
+        self.show = Show("FilmTitle",1000,"Done",self.show_dir)
+        self.shot = Shot("01_B", 30, "Completed", self.shot_dir)
 
     def tearDown(self):
         # Remove the temporary directory and its contents
-        shutil.rmtree(self.temp_dir)
+        shutil.rmtree(TEST_TEMP_DIR_PATH+TEST_TEMP_NAME)
 
     def test_make_directory(self):
         # Test making a new directory
         new_dir = os.path.join(self.temp_dir, "NewDirectory")
-        self.show.make_directory(self.temp_dir, "NewDirectory")
+        self.show.make_directory(TEST_SHOT_DIR_PATH, TEST_SHOT_NAME)
         self.assertTrue(os.path.exists(new_dir))
 
         # Test making a directory that already exists
