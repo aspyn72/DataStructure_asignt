@@ -8,14 +8,14 @@ from typing import List, Dict
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
 # ****** put Directory Path to save Show DB and Shot DB (folders and .json files) inside ****** #
-TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataStructure/TEST/"
+TEMP_DIR_PATH = "/Users/moon/Desktop/TEST/"
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
-SHOW_NAME = "Mimic"
+SHOW_NAME = "ShowTitle"
     # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
-SHOT_NAME= "01_B"
+SHOT_NAME= "01_A"
 # =======================================================
 
 # ======== CLASSes Starts Here ========
@@ -281,9 +281,6 @@ ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 # ======== Use this line below to create DIRECTORY ======== #
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
     # You can create show (or shot) folder for different shows (or shots) as many as you want
-#ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
-ShowFunc.delete_directory(SHOT_DIR_PATH,SHOT_NAME)
-
-#ShowFunc.create("Stupid",20,"Done",SHOT_DIR_PATH,"mean.json")
+ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 
 # ========================================================== #
