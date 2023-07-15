@@ -9,7 +9,7 @@ class TestShowShotManagement(unittest.TestCase):
 
     def setUp(self):
         # Create a test directory for the unit tests
-        self.test_dir = "/Users/moon/Desktop/TEST/"
+        self.test_dir = "D:\TEST"
         os.makedirs(self.test_dir, exist_ok=True)
 
     def tearDown(self):
