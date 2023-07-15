@@ -12,35 +12,36 @@ TEMP_DIR_PATH = "/Users/moon/Library/CloudStorage/OneDrive-BCIT/TERM 3/P2_DataSt
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
-SHOW_NAME = "Zootopia"
+SHOW_NAME = "Mimic"
     # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
-SHOT_Name= "01_A"
+SHOT_NAME= "01_B"
 # =======================================================
 
 # ======== CLASSes Starts Here ========
 
 ### Abstract Class ###
 class Template:
-    def __init__(self, name : str, duration : int, status:str, path:str):
+    def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
         self.duration=duration
         self.status=status
         self.path= path
 
     # Make Directory (Folder)
-    def make_directory(self,path: str, name: str):
+    def make_directory(self, path: str, name: str) -> None:
         folder_dir = osPath.join(path, name)
-        #folder_dir = os.path.join(path, name)
-        #if os.path.exists(folder_dir):
         if osPath.exists(folder_dir):
             print(f"'{folder_dir}' already exists.")
         else:
             os.makedirs(folder_dir)
             print(f"'{folder_dir}' is created.")
+    
+    def delete_directory(self, path: str, name: str) -> None:
+        shutil.rmtree(path+name)
 
     # CREATE shows or shots and will ADD to .json file
-    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
+    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str) -> None:
         data = {
                     "Name": name,
                     "Time Duration": duration,
@@ -101,7 +102,7 @@ class Template:
          # Update the content of .json file which removed desired show(or shot) data
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
-
+        
     # Read the file you want and print all the content inside the file
     def get_all_info(self, path: str, file_json_name: str ):
          filePathNameWExt = path + file_json_name
@@ -210,6 +211,9 @@ class Show(Template):
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
     
+    def delete_directory(self, path: str, name: str) -> None:
+        return super().delete_directory(path, name)
+    
     def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
         return super().create(name, duration, status, path, file_json_name)
     
@@ -237,12 +241,15 @@ class Show(Template):
 class Shot(Template):
     def __init__(self, name: str, duration: int, status: str, path: str):
         super().__init__(name, duration, status, path)
-        self.name=SHOT_Name
+        self.name=SHOT_NAME
         self.path=SHOT_DIR_PATH
-        self.SHOT_DB=[]
+        #self.SHOT_DB=[]
     
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
+    
+    def delete_directory(self, path: str, name: str) -> None:
+        return super().delete_directory(path, name)
     
     def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
         return super().create(name, duration, status, path, file_json_name)
@@ -266,30 +273,17 @@ class Shot(Template):
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)
 
-# =============== Variables to CALL CLASS =================
+# =============== Variables to CALL CLASS ================== #
 # you can use these or create on your own
 ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
 ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 
-# ======== Use this line below to create DIRECTORY ========
+# ======== Use this line below to create DIRECTORY ======== #
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
     # You can create show (or shot) folder for different shows (or shots) as many as you want
-ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
+#ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_Name)
+ShowFunc.delete_directory(SHOT_DIR_PATH,SHOT_NAME)
 
-# ==========================================================
-#ShowFunc.create("Zootopia",90,"Will be filmmed",SHOW_DIR_PATH,"All_SHOW_DB.json")
-#ShotFunc.create("01_a",24,"in Progress",SHOT_DIR_PATH,"Jurassic_shot_DB")
+#ShowFunc.create("Stupid",20,"Done",SHOT_DIR_PATH,"mean.json")
 
-#ShowFunc.delete("Zootopia",SHOW_DIR_PATH,"All_SHOW_DB.json")
-#ShowFunc.get_single_info("JurassicPark",SHOW_DIR_PATH,"All_SHOW_DB.json")
-#ShowFunc.get_all_info(SHOW_DIR_PATH,"All_SHOW_DB.json")
-#ShowFunc.edit_name(SHOW_DIR_PATH,"All_SHOW_DB.json","Parasite","Bong Jun Ho's Parasite")
-#ShowFunc.edit_duration(SHOW_DIR_PATH,"All_SHOW_DB.json","JurassicPark",40)
-
-#ShotFunc.get_all_info()
-#ShotFunc.edit_duration()
-
-
-
-#assert isinstance(Show, Template)
-#assert isinstance(Shot, Template)
+# ========================================================== #
