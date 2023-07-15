@@ -22,6 +22,7 @@ Set the global variables
 - `SHOT_NAME` 
 >
    according to your desired directory structure.
+   <br><font size="1">Check the strings that already provided as an example. Try to have a same structure with it.</font>
 
 ## 2. Set Variables to Call classes
 
