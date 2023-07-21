@@ -284,3 +284,5 @@ ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 
 # ========================================================== #
+
+__name__ == "__main__"
