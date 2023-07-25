@@ -20,7 +20,7 @@ SHOT_NAME= "01_A"
 
 # ======== CLASSes Starts Here ========
 
-### Abstract Class ###
+### Parent Class ###
 class Template:
     def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
