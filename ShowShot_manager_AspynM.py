@@ -285,7 +285,11 @@ class Asset(Template):
 
     def make_directory(self, path: str, name: str) -> None:
         return super().make_directory(path, name)
+    
+    def delete_directory(self, path: str, name: str) -> None:
+        return super().delete_directory(path, name)
 
+        # didn't inherited from Template class
     def create(self, name: str, path: str, file_json_name: str) -> None:
         asset_data = [name]
 
@@ -345,4 +349,4 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
 
-AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
+#AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
