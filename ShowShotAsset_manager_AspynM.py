@@ -4,6 +4,8 @@ import sys
 import json
 import shutil
 from typing import List, Dict
+from pathlib import Path
+
 
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
@@ -49,7 +51,7 @@ class Template:
                     "Name": name,
                     "Time Duration": duration,
                     "Status": status,
-                    "Shots":{}
+                    "Shots":[]
                     }
         filePathNameWExt = path + file_json_name
         
@@ -255,12 +257,12 @@ class Shot(Template):
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
     
-    def create(self, name: str, duration: int, status: str, asset: list, path: str, file_json_name: str):
+    def create(self, name: str, duration: int, status: str, assets: list, path: str, file_json_name: str):
         data = {
                     "Name": name,
                     "Time Duration": duration,
                     "Status": status,
-                    "Asset":asset
+                    "Asset":assets
                     }
         filePathNameWExt = path + file_json_name
         
@@ -269,35 +271,69 @@ class Shot(Template):
             # in case the file already exists
             print(".json file exists")
             with open(filePathNameWExt) as file:
-                self.list_for_org = json.load(file)
+                self.list_for_shots = json.load(file)
             # we put the data(Dictionary) in .json file here
-            self.list_for_org.append(data)
+            self.list_for_shots.append(data)
             with open(filePathNameWExt,mode= "w") as file:
-                json.dump(self.list_for_org,file,indent=4)
+                json.dump(self.list_for_shots,file,indent=4)
         else:
             # in case the file doesn't exist
             print("created .json file")
-            self.list_for_org=[]
+            self.list_for_shots=[]
 
             with open(filePathNameWExt,'w') as file:
-                json.dump(self.list_for_org,file)
+                json.dump(self.list_for_shots,file)
 
             with open(filePathNameWExt) as file:
-                self.list_for_org = json.load(file)
+                self.list_for_shots = json.load(file)
 
             # we put the data(Dictionary) in .json file here
-            self.list_for_org.append(data)
+            self.list_for_shots.append(data)
             with open(filePathNameWExt,mode= "w") as file:
-                json.dump(self.list_for_org,file,indent=4)
+                json.dump(self.list_for_shots,file,indent=4)
 
         # Print results
         print("=== Dictionary Show(or Shot) data ====")
         print(name+" info is created and added")
         print(data)
         print("=== data that exists in the file so far ===")
-        print(self.list_for_org)
+        print(self.list_for_shots)
 
-        return self.list_for_org
+            # fetch ShowDB file name
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("===========")
+
+        #if os.path.isfile(show_file_name):
+        #self.list_for_show_file=[]
+        try:
+            self.list_for_show_file=[]
+            with open(file_path_of_show[0]) as show_file_to_add_shot:
+                self.list_for_show_file = json.load(show_file_to_add_shot)
+            # we put the data(Dictionary) in .json file here
+            print("===========")
+            print(self.list_for_show_file)
+            print("===========")
+            self.list_for_show_file.append(data)
+            with open(file_path_of_show[0],mode= "w") as show_file_to_add_shot:
+                json.dump(self.list_for_show_file, show_file_to_add_shot, indent=4)
+            #else:
+            #    print("No file")
+        except c as e:
+            # Handle JSON decoding errors
+            print(f"JSON decoding error: {e}")
+
+
+
+
+
+
+        return self.list_for_shots
     
     def delete(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
@@ -389,7 +425,8 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
-
+#ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
 ShotFunc.create("l_A",10,"Done",["me","you"],SHOT_DIR_PATH,"shot.json")
+#ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
