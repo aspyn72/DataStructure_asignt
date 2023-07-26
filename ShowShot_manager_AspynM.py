@@ -8,7 +8,7 @@ from typing import List, Dict
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
 # you should put your directory PATH and folder NAME here / I put random strings for example
 # ****** put Directory Path to save Show DB and Shot DB (folders and .json files) inside ****** #
-TEMP_DIR_PATH = "D:"
+TEMP_DIR_PATH = "/Users/moon/Desktop/"
 TEMP_NAME = "Show_Shot_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
@@ -16,6 +16,9 @@ SHOW_NAME = "ShowTitle"
     # need to put shot folder name here to avoid putting the path manually
 SHOT_DIR_PATH = SHOW_DIR_PATH + SHOW_NAME + "/"
 SHOT_NAME= "01_A"
+    # need to put asset folder name here to avoid putting the path manually
+ASSET_DIR_PATH  = SHOW_DIR_PATH + SHOW_NAME + "/"
+ASSET_NAME= "AssetDB"
 # =======================================================
 
 # ======== CLASSes Starts Here ========
@@ -46,6 +49,7 @@ class Template:
                     "Name": name,
                     "Time Duration": duration,
                     "Status": status,
+                    "Shots":{}
                     }
         filePathNameWExt = path + file_json_name
         
@@ -272,17 +276,73 @@ class Shot(Template):
     
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)
+    
+class Asset(Template):
+
+    def __init__(self, name: str, path: str) -> None:
+        self.name=name
+        self.path=path
+
+    def make_directory(self, path: str, name: str) -> None:
+        return super().make_directory(path, name)
+
+    def create(self, name: str, path: str, file_json_name: str) -> None:
+        asset_data = [name]
+
+        filePathNameWExt = path + file_json_name
+        
+        # check if .json file already exists
+        if osPath.exists(filePathNameWExt):
+            # in case the file already exists
+            print(".json file exists")
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+            # we put the data(Dictionary) in .json file here
+            self.list_for_org.append(asset_data)
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+        else:
+            # in case the file doesn't exist
+            print("created .json file")
+            self.list_for_org=[]
+
+            with open(filePathNameWExt,'w') as file:
+                json.dump(self.list_for_org,file)
+
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+
+            # we put the data(Dictionary) in .json file here
+            self.list_for_org.append(asset_data)
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+
+        # Print results
+        print("=== Dictionary Show(or Shot) data ====")
+        print(name+" info is created and added")
+        print(asset_data)
+        print("=== data that exists in the file so far ===")
+        print(self.list_for_org)
+
+        return asset_data
+
+
+
+
+# ========================================================
+__name__ == "__main__"
 
 # =============== Variables to CALL CLASS ================== #
 # you can use these or create on your own
 ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
 ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
+AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 
 # ======== Use this line below to create DIRECTORY ======== #
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
     # You can create show (or shot) folder for different shows (or shots) as many as you want
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
-
+AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
 
-__name__ == "__main__"
+AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
