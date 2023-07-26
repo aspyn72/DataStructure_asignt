@@ -257,7 +257,8 @@ class Shot(Template):
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
     
-    def create(self, name: str, duration: int, status: str, assets: list, path: str, file_json_name: str):
+    def create(self, name: str, duration: int, status: str, assets: list, show_name: str, path: str, file_json_name: str):
+        self.show_name=show_name
         data = {
                     "Name": name,
                     "Time Duration": duration,
@@ -309,29 +310,31 @@ class Shot(Template):
         print(file_path_of_show[0])
         print("===========")
 
+        # update shots to show
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+            print(self.list_for_shows)
+            print(data)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=data
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's nothing")
+                    break
+    
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
+
         #if os.path.isfile(show_file_name):
         #self.list_for_show_file=[]
-        try:
-            self.list_for_show_file=[]
-            with open(file_path_of_show[0]) as show_file_to_add_shot:
-                self.list_for_show_file = json.load(show_file_to_add_shot)
-            # we put the data(Dictionary) in .json file here
-            print("===========")
-            print(self.list_for_show_file)
-            print("===========")
-            self.list_for_show_file.append(data)
-            with open(file_path_of_show[0],mode= "w") as show_file_to_add_shot:
-                json.dump(self.list_for_show_file, show_file_to_add_shot, indent=4)
-            #else:
-            #    print("No file")
-        except c as e:
-            # Handle JSON decoding errors
-            print(f"JSON decoding error: {e}")
-
-
-
-
-
+        
+        #else:
+        #    print("No file")
 
         return self.list_for_shots
     
@@ -343,7 +346,7 @@ class Shot(Template):
     
     def get_single_info(self, name: str, path: str, file_json_name: str):
         return super().get_single_info(name, path, file_json_name)
-    
+    '''
     ## EDIT part
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
         return super().edit_name(path, file_json_name, name, new_name)
@@ -352,7 +355,7 @@ class Shot(Template):
         return super().edit_duration(path, file_json_name, name, new_duration)
     
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
-        return super().edit_status(path, file_json_name, name, new_status)
+        return super().edit_status(path, file_json_name, name, new_status)'''
     
 class Asset(Template):
 
@@ -426,7 +429,7 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.create("l_A",10,"Done",["me","you"],SHOT_DIR_PATH,"shot.json")
+ShotFunc.create("l_b",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
