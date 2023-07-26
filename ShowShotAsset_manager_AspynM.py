@@ -255,8 +255,49 @@ class Shot(Template):
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
     
-    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
-        return super().create(name, duration, status, path, file_json_name)
+    def create(self, name: str, duration: int, status: str, asset: list, path: str, file_json_name: str):
+        data = {
+                    "Name": name,
+                    "Time Duration": duration,
+                    "Status": status,
+                    "Asset":asset
+                    }
+        filePathNameWExt = path + file_json_name
+        
+        # check if .json file already exists
+        if osPath.exists(filePathNameWExt):
+            # in case the file already exists
+            print(".json file exists")
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+            # we put the data(Dictionary) in .json file here
+            self.list_for_org.append(data)
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+        else:
+            # in case the file doesn't exist
+            print("created .json file")
+            self.list_for_org=[]
+
+            with open(filePathNameWExt,'w') as file:
+                json.dump(self.list_for_org,file)
+
+            with open(filePathNameWExt) as file:
+                self.list_for_org = json.load(file)
+
+            # we put the data(Dictionary) in .json file here
+            self.list_for_org.append(data)
+            with open(filePathNameWExt,mode= "w") as file:
+                json.dump(self.list_for_org,file,indent=4)
+
+        # Print results
+        print("=== Dictionary Show(or Shot) data ====")
+        print(name+" info is created and added")
+        print(data)
+        print("=== data that exists in the file so far ===")
+        print(self.list_for_org)
+
+        return self.list_for_org
     
     def delete(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
@@ -348,5 +389,7 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
+
+ShotFunc.create("l_A",10,"Done",["me","you"],SHOT_DIR_PATH,"shot.json")
 
 #AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
