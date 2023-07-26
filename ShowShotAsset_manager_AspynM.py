@@ -310,7 +310,10 @@ class Shot(Template):
         print(file_path_of_show[0])
         print("===========")
 
-        # update shots to show
+        # put shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
         with open(file_path_of_show[0], 'r') as file:
             self.list_for_shows = json.load(file)
             print(self.list_for_shows)
@@ -319,7 +322,7 @@ class Shot(Template):
         for updateinfo in self.list_for_shows:
             for key, val in updateinfo.items():
                 if val==show_name:
-                    updateinfo['Shots']=data
+                    updateinfo['Shots']=self.list_for_shots
                     print("Shot is updated")
                     break
                 else:
@@ -429,7 +432,7 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.create("l_b",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
+ShotFunc.create("l_d",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
