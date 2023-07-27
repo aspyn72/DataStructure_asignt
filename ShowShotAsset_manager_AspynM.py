@@ -373,8 +373,10 @@ class Asset(Template):
         return super().delete_directory(path, name)
 
         # didn't inherited from Template class
-    def create(self, name: str, path: str, file_json_name: str) -> None:
-        asset_data = [name]
+    def create(self, category: str, name: str, path: str, file_json_name: str) -> None:
+        self.category=category
+        self.name=name
+        asset_data = {category:name}
 
         filePathNameWExt = path + file_json_name
         
@@ -412,6 +414,38 @@ class Asset(Template):
         print(self.list_for_org)
 
         return asset_data
+    
+    def delete(self, name: str, path: str, file_json_name: str):
+        return super().delete(name, path, file_json_name)
+    
+    def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
+        self.path=path
+        self.file_json_name=file_json_name
+        self.name=name
+        self.new_name=new_name
+
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo[key]=new_name
+                    print("Name is updated")
+                    break
+                else:
+                    print("There's nothing named "+name)
+                    break
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
+    def get_all_info(self, path: str, file_json_name: str):
+        return super().get_all_info(path, file_json_name)
+    
+
+
 
 
 
@@ -432,7 +466,11 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.create("l_d",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
+#ShotFunc.create("l_d",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
-#AssetFunc.create("Costume",ASSET_DIR_PATH,"ASSET_DB.json")
+#AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
+#AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
+#AssetFunc.create("Costume","Bread",ASSET_DIR_PATH,"ASSET_DB.json")
+
+#AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
