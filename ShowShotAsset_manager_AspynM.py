@@ -392,16 +392,158 @@ class Shot(Template):
     def get_single_info(self, name: str, path: str, file_json_name: str):
         return super().get_single_info(name, path, file_json_name)
 
-    '''
+ 
     ## EDIT part
-    def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
-        return super().edit_name(path, file_json_name, name, new_name)
+    def edit_name(self, path: str, file_json_name: str, name: str, new_name: str,show_name: str):
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo['Name']=new_name
+                    print("Name is updated")
+                    break
+                else:
+                    print("There's nothing named "+name)
+                    break
     
-    def edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int):
-        return super().edit_duration(path, file_json_name, name, new_duration)
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+        
+        # fetch Show directory
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("==========================")
+
+        # put edited shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+            print(self.list_for_shows)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=self.list_for_shots
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's no show named -> " + str(show_name))
+                    break
     
-    def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
-        return super().edit_status(path, file_json_name, name, new_status)'''
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
+    
+    def edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int,show_name: str):
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo['Time Duration']=new_duration
+                    print("Time Duration is updated")
+                    break
+                else:
+                    print("There's nothing named "+str(name))
+                    break
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+        
+        # fetch Show directory
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("==========================")
+
+        # put edited shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+            print(self.list_for_shows)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=self.list_for_shots
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's no show named -> " + str(show_name))
+                    break
+    
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
+        
+    def edit_status(self, path: str, file_json_name: str, name: str, new_status: str,show_name: str):
+
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo['Status']=new_status
+                    print("Status is updated")
+                    break
+                else:
+                    print("There's nothing named "+str(name))
+                    break
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+        
+        # fetch Show directory
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("==========================")
+
+        # put edited shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+            print(self.list_for_shows)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=self.list_for_shots
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's no show named -> " + str(show_name))
+                    break
+    
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
     
     def edit_assets(self, path: str, file_json_name: str, name: str, new_assets: list, show_name: str):
         self.path=path
@@ -460,7 +602,6 @@ class Shot(Template):
         return self.list_for_shots
 
 
-    
 
 class Asset(Template):
 
@@ -568,7 +709,7 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.delete("l_dk",SHOT_DIR_PATH,"shot.json","JuJu")
+ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_c",["HA ENG"],"JuJu")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
