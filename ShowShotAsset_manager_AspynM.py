@@ -119,7 +119,7 @@ class Template:
             print("")
             print(self.list_to_print)
             print("")
-            print("===== END =====")
+            print("============ END =============")
             print("")
 
     # Read the file and print the data you want to check
@@ -212,7 +212,6 @@ class Show(Template):
         super().__init__(name, duration, status, path)
         self.name=SHOW_NAME
         self.path=SHOW_DIR_PATH
-        self.SHOW_DB=[]
 
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
@@ -249,7 +248,6 @@ class Shot(Template):
         super().__init__(name, duration, status, path)
         self.name=SHOT_NAME
         self.path=SHOT_DIR_PATH
-        #self.SHOT_DB=[]
     
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
@@ -265,6 +263,7 @@ class Shot(Template):
                     "Status": status,
                     "Asset":assets
                     }
+                    
         filePathNameWExt = path + file_json_name
         
         # check if .json file already exists
@@ -308,7 +307,7 @@ class Shot(Template):
         print(show_path)
         print(show_file_name)
         print(file_path_of_show[0])
-        print("===========")
+        print("==========================")
 
         # put shots to show
         with open(filePathNameWExt) as file:
@@ -332,13 +331,6 @@ class Shot(Template):
         with open(file_path_of_show[0], 'w') as file:
             json.dump(self.list_for_shows, file, indent=4)
 
-
-        #if os.path.isfile(show_file_name):
-        #self.list_for_show_file=[]
-        
-        #else:
-        #    print("No file")
-
         return self.list_for_shots
     
     def delete(self, name: str, path: str, file_json_name: str):
@@ -349,6 +341,7 @@ class Shot(Template):
     
     def get_single_info(self, name: str, path: str, file_json_name: str):
         return super().get_single_info(name, path, file_json_name)
+
     '''
     ## EDIT part
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
@@ -360,6 +353,32 @@ class Shot(Template):
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)'''
     
+    def edit_assets(self, path: str, file_json_name: str, name: str, new_assets: list):
+        self.path=path
+        self.file_json_name=file_json_name
+        self.name=name
+        self.new_assets=new_assets
+        
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    deletedinfo['Asset']=new_assets
+                    print(str(new_assets)+"is updated")
+                    break
+                else:
+                    print("There's nothing named "+str(new_assets))
+                    break
+    
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
+
+    
+
 class Asset(Template):
 
     def __init__(self, name: str, path: str) -> None:
@@ -463,10 +482,10 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
     # You can create show (or shot) folder for different shows (or shots) as many as you want
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
-AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
+AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-#ShotFunc.create("l_d",10,"Done",["me","you"],"JuJu",SHOT_DIR_PATH,"shot.json")
+ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_A",["New","Jeans"])
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
