@@ -333,9 +333,59 @@ class Shot(Template):
 
         return self.list_for_shots
     
-    def delete(self, name: str, path: str, file_json_name: str):
-        return super().delete(name, path, file_json_name)
+    def delete(self, name: str, path: str, file_json_name: str,show_name: str):
+
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    self.list_for_org.remove(deletedinfo)
+                    print("It's deleted")
+                else:
+                    print("There's no shot named " + str(name))
+                    break
+
+         # Update the content of .json file which removed desired show(or shot) data
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
+         # fetch Show directory
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("==========================")
+
+        # put edited shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=self.list_for_shots
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's no show named -> " + str(show_name))
+                    break
     
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
+
+
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
@@ -518,7 +568,7 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_b",["New","Jeans"],"Jura")
+ShotFunc.delete("l_dk",SHOT_DIR_PATH,"shot.json","JuJu")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
