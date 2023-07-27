@@ -684,8 +684,27 @@ class Asset(Template):
 
         return asset_data
     ##############
-    def delete_category(self, name: str, path: str, file_json_name: str):
-        return super().delete(name, path, file_json_name)
+    def delete_whole_category(self, category: str, path: str, file_json_name: str):
+
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if key==category:
+                    self.list_for_org.remove(deletedinfo)
+                    print("It's deleted")
+                else:
+                    print("There's nothing named " + category)
+                    break
+
+         # Update the content of .json file which removed desired show(or shot) data
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+        
     
     def delete_asset(self, name: str, category:str, path: str, file_json_name: str):
         pass
@@ -749,6 +768,6 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-AssetFunc.create("told you","I'geeze't",ASSET_DIR_PATH,"ASSETdb.json")
+AssetFunc.delete_whole_category("told you",ASSET_DIR_PATH,"ASSETdb.json")
 
 #AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
