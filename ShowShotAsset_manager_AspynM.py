@@ -205,7 +205,7 @@ class Template:
             json.dump(self.list_for_org, file, indent=4)
 
 
-### SHOW class (child of the abstract class) ###
+### SHOW class (child class) ###
 class Show(Template):
 
     def __init__(self, name: str, duration: int, status: str, path: str):
@@ -213,18 +213,21 @@ class Show(Template):
         self.name=SHOW_NAME
         self.path=SHOW_DIR_PATH
 
+    # DIRECTORY part
     def make_directory(self, path: str, name: str):
         return super().make_directory(path, name)
     
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
     
+    # Create and Delete Show Part
     def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
         return super().create(name, duration, status, path, file_json_name)
     
     def delete(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
     
+    ## INFO part
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
 
@@ -383,7 +386,6 @@ class Shot(Template):
     
         with open(file_path_of_show[0], 'w') as file:
             json.dump(self.list_for_shows, file, indent=4)
-
 
 
     def get_all_info(self, path: str, file_json_name: str):
@@ -687,6 +689,9 @@ class Asset(Template):
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
+    def get_single_info(self, name: str, path: str, file_json_name: str):
+        return super().get_single_info(name, path, file_json_name)
+    
 
 
 
@@ -708,8 +713,11 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
+
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_c",["HA ENG"],"JuJu")
+#ShotFunc.get_single_info("AA",SHOT_DIR_PATH,"shot.json")
+AssetFunc.get_single_info("Bread",ASSET_DIR_PATH,"ASSET_DB.json") 
+
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
