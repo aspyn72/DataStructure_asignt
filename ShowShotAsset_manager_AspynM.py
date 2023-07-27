@@ -353,7 +353,7 @@ class Shot(Template):
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
         return super().edit_status(path, file_json_name, name, new_status)'''
     
-    def edit_assets(self, path: str, file_json_name: str, name: str, new_assets: list):
+    def edit_assets(self, path: str, file_json_name: str, name: str, new_assets: list, show_name: str):
         self.path=path
         self.file_json_name=file_json_name
         self.name=name
@@ -375,6 +375,39 @@ class Shot(Template):
     
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
+
+        # fetch Show directory
+        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        file_path_of_show = list(Path(show_path).rglob("*"))
+        show_file_name=os.path.basename(file_path_of_show[0])
+        print("=====show_file_name=======")
+        print(show_path)
+        print(show_file_name)
+        print(file_path_of_show[0])
+        print("==========================")
+
+        # put edited shots to show
+        with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+        with open(file_path_of_show[0], 'r') as file:
+            self.list_for_shows = json.load(file)
+            print(self.list_for_shows)
+
+        for updateinfo in self.list_for_shows:
+            for key, val in updateinfo.items():
+                if val==show_name:
+                    updateinfo['Shots']=self.list_for_shots
+                    print("Shot is updated")
+                    break
+                else:
+                    print("There's no show named -> " + str(show_name))
+                    break
+    
+        with open(file_path_of_show[0], 'w') as file:
+            json.dump(self.list_for_shows, file, indent=4)
+
+        return self.list_for_shots
 
 
     
@@ -454,7 +487,7 @@ class Asset(Template):
                     print("Name is updated")
                     break
                 else:
-                    print("There's nothing named "+name)
+                    print("There's nothing named "+str(name))
                     break
     
         with open(filePathNameWExt, 'w') as file:
@@ -485,7 +518,7 @@ ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_A",["New","Jeans"])
+ShotFunc.edit_assets(SHOT_DIR_PATH,"shot.json","l_b",["New","Jeans"],"Jura")
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
