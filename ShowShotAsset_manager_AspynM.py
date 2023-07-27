@@ -617,11 +617,15 @@ class Asset(Template):
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
 
-        # didn't inherited from Template class
+        # isn't inherited from Template class
     def create(self, category: str, name: str, path: str, file_json_name: str) -> None:
+
         self.category=category
         self.name=name
-        asset_data = {category:name}
+        self.asset_list_cate=[]
+        CAT=[]
+        
+        asset_data = {category:self.asset_list_cate}
 
         filePathNameWExt = path + file_json_name
         
@@ -629,12 +633,31 @@ class Asset(Template):
         if osPath.exists(filePathNameWExt):
             # in case the file already exists
             print(".json file exists")
+            
             with open(filePathNameWExt) as file:
                 self.list_for_org = json.load(file)
-            # we put the data(Dictionary) in .json file here
-            self.list_for_org.append(asset_data)
-            with open(filePathNameWExt,mode= "w") as file:
-                json.dump(self.list_for_org,file,indent=4)
+
+            for deletedinfo in self.list_for_org:
+                for key, val in deletedinfo.items():
+                    if key==category:
+                        print("category exists")
+                        CAT.append("NoNeedtoProcedd")
+                        val.append(name)
+                        deletedinfo[category]=val
+                        
+                        with open(filePathNameWExt,mode= "w") as file:
+                            json.dump(self.list_for_org,file,indent=4)
+
+                    else:
+                        print("category doesn't exist")
+                        break
+            
+            if CAT==[]:
+                self.asset_list_cate.append(name)
+                self.list_for_org.append(asset_data)
+                with open(filePathNameWExt,mode= "w") as file:
+                    json.dump(self.list_for_org,file,indent=4)
+
         else:
             # in case the file doesn't exist
             print("created .json file")
@@ -647,6 +670,7 @@ class Asset(Template):
                 self.list_for_org = json.load(file)
 
             # we put the data(Dictionary) in .json file here
+            self.asset_list_cate.append(name)
             self.list_for_org.append(asset_data)
             with open(filePathNameWExt,mode= "w") as file:
                 json.dump(self.list_for_org,file,indent=4)
@@ -659,7 +683,7 @@ class Asset(Template):
         print(self.list_for_org)
 
         return asset_data
-    
+    ##############
     def delete(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
     
@@ -716,12 +740,12 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
 #ShotFunc.get_single_info("AA",SHOT_DIR_PATH,"shot.json")
-AssetFunc.get_single_info("Bread",ASSET_DIR_PATH,"ASSET_DB.json") 
+#AssetFunc.get_single_info("Bread",ASSET_DIR_PATH,"ASSET_DB.json") 
 
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-#AssetFunc.create("Costume","Bread",ASSET_DIR_PATH,"ASSET_DB.json")
+AssetFunc.create("told you","I'geeze't",ASSET_DIR_PATH,"ASSETdb.json")
 
 #AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
