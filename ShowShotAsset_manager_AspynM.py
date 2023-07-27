@@ -684,8 +684,11 @@ class Asset(Template):
 
         return asset_data
     ##############
-    def delete(self, name: str, path: str, file_json_name: str):
+    def delete_category(self, name: str, path: str, file_json_name: str):
         return super().delete(name, path, file_json_name)
+    
+    def delete_asset(self, name: str, category:str, path: str, file_json_name: str):
+        pass
     
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
         self.path=path
