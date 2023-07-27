@@ -707,7 +707,40 @@ class Asset(Template):
         
     
     def delete_asset(self, name: str, category:str, path: str, file_json_name: str):
-        pass
+        self.val_list=[]
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # Modify the data structure to remove the desired dictionary
+        
+        '''for deletedinfo in self.list_for_org:     
+            for key, val in deletedinfo.items():
+                if key==category:
+                    val_list.append(val)'''
+        for deletedinfo in self.list_for_org:     
+            for key, val in deletedinfo.items():
+                if key==category:
+                    self.val_list=deletedinfo[key]
+                    print(self.val_list)
+                    for each_asset in self.val_list:
+                        if each_asset==name:
+                            self.val_list.remove(name)
+                            deletedinfo[key]=self.val_list
+                        else:
+                            print("Asset named " + str(name))
+                else:
+                    print("category named " + str(category))
+                    
+         # Update the content of .json file which removed desired show(or shot) data
+        with open(filePathNameWExt, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+        
+        print("=======Check if it's deleted=======")
+        print(self.list_for_org)
+        
+
     
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
         self.path=path
@@ -768,6 +801,6 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-AssetFunc.delete_whole_category("told you",ASSET_DIR_PATH,"ASSETdb.json")
+AssetFunc.delete_asset("sotp ","good",ASSET_DIR_PATH,"ASSETdb.json")
 
 #AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
