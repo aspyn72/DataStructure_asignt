@@ -707,7 +707,7 @@ class Asset(Template):
             json.dump(self.list_for_org, file, indent=4)
         
     
-    def delete_asset(self, name: str, category:str, path: str, file_json_name: str):
+    def delete_single_asset(self, name: str, category:str, path: str, file_json_name: str):
         self.val_list=[]
         filePathNameWExt = path + file_json_name
 
@@ -736,8 +736,8 @@ class Asset(Template):
         print("=======Check if it's deleted=======")
         print(self.list_for_org)
         
-    # EDIT
-    def edit_asset(self, path: str, file_json_name: str, name: str, new_name: str, category:str):
+    # EDIT - why do we need this...?
+    '''def edit_asset(self, path: str, file_json_name: str, name: str, new_name: str, category:str):
 
         filePathNameWExt = path + file_json_name
         with open(filePathNameWExt, 'r') as file:
@@ -754,21 +754,41 @@ class Asset(Template):
                     break
     
         with open(filePathNameWExt, 'w') as file:
-            json.dump(self.list_for_org, file, indent=4)
+            json.dump(self.list_for_org, file, indent=4)'''
 
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
-    # Have to do this
+    
     def get_single_asset_info(self, name: str, path: str, file_json_name: str):
+        CAT=[]
         filePathNameWExt = path + file_json_name
 
-        cate=""
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
 
-        print( str(name) + " is in the " + str(cate) + " category.")
+        # To get the desired info  
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                for indi_val in val:
+                    if indi_val==name:
+                        CAT.append("exist")
+                        print("=======Asset in Category========")
+                        print("   ")
+                        print( "[ " + str(name) + " ] is in the [ " + str(key) + " ] category.")
+                        print("=================================")
+                    else:
+                        print("-")
+
+        if CAT==[]:
+            print("There is no asset named "+str(name))
+            print("")          
+        else:
+            pass
+
 
     def get_single_category_info ( self, category: str, path: str, file_json_name: str):
-
+        CAT=[]
         filePathNameWExt = path + file_json_name
 
         with open(filePathNameWExt, 'r') as file:
@@ -778,6 +798,7 @@ class Asset(Template):
         for deletedinfo in self.list_for_org:
             for key, val in deletedinfo.items():
                 if key==category:
+                    CAT.append("exist")
                     print("   ")
                     print("====== Assets in category =======")
                     print("   ")
@@ -786,13 +807,13 @@ class Asset(Template):
                     print("=================================")
                     print("   ")
                 else:
-                    print("-")
-
-         # Update the content of .json file which removed desired show(or shot) data
-        with open(filePathNameWExt, 'w') as file:
-            json.dump(self.list_for_org, file, indent=4)
-    
-
+                    print("")
+        
+        if "exist" in CAT:
+            pass
+        else:
+            print("There is not category named "+category)
+            print("")
 
 # ========================================================
 __name__ == "__main__"
@@ -818,6 +839,6 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-AssetFunc.get_single_category_info("now",ASSET_DIR_PATH,"ASSETdb.json")
+AssetFunc.get_single_asset_info("PAHHHH",ASSET_DIR_PATH,"ASSETdb.json")
 
 #AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
