@@ -759,15 +759,11 @@ class Asset(Template):
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
+    # Have to do this
     def get_single_asset_info(self, name: str, path: str, file_json_name: str):
         filePathNameWExt = path + file_json_name
 
         cate=""
-
-
-
-
-
 
         print( str(name) + " is in the " + str(cate) + " category.")
 
