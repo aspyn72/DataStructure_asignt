@@ -839,6 +839,6 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-AssetFunc.get_single_asset_info("PAHHHH",ASSET_DIR_PATH,"ASSETdb.json")
+#AssetFunc.create("","devil",ASSET_DIR_PATH,"ASSETdb.json")
 
 #AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
