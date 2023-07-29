@@ -5,6 +5,7 @@ import json
 import shutil
 from typing import List, Dict
 from pathlib import Path
+import time
 
 
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
@@ -521,11 +522,6 @@ class Shot(Template):
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
         file_path_of_show = list(Path(show_path).rglob("*"))
         show_file_name=os.path.basename(file_path_of_show[0])
-        print("=====show_file_name=======")
-        print(show_path)
-        print(show_file_name)
-        print(file_path_of_show[0])
-        print("==========================")
 
         # put edited shots to show
         with open(filePathNameWExt) as file:
@@ -692,10 +688,94 @@ class Shot(Template):
             with open(file_path_of_show[0], 'w') as file:
                 json.dump(self.list_for_shows, file, indent=4)
 
-    def edit_asset(self,name:str,asset_name:str,new_asset_name:str,path:str,file_json_name:str,show_name:str):
-        pass
+    def edit_asset_name(self,name:str,asset_name:str,new_asset_name:str,path:str,file_json_name:str,asset_file_json_name:str ,show_name:str):
+        CAT=[]
+        filePathNameWExt = path + file_json_name
+        asset_file_path_name_w_ext=path+asset_file_json_name
+        print(asset_file_path_name_w_ext)
 
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
 
+        with open(asset_file_path_name_w_ext, 'r') as file:
+            self.list_for_assets = json.load(file)
+
+        # To get the desired info  
+        for deletedinfo in self.list_for_assets:
+            for key, val in deletedinfo.items():
+                for indi_val in val:
+                    if indi_val==asset_name:
+                        CAT.append("exist")
+                    else:
+                        print("")
+
+        if CAT==[]:
+            print("") 
+            print("There is no asset named "+str(name)+" in asset's JSON file")
+            print("Update asset name in the asset's JSON file first.")   
+            print("and then try again")      
+            print("")     
+        else:
+            for asset_info in self.list_for_org:
+                for key, val in asset_info.items():
+                    if val==name:
+                        asset_list=asset_info['Asset']
+                        for indi_as in asset_list:
+                            for key,val in indi_as.items():
+                                if val==asset_name:
+                                    indi_as[key]=new_asset_name
+                                else:
+                                    print("There's nothing named "+str(asset_name))
+        
+            with open(filePathNameWExt, 'w') as file:
+                json.dump(self.list_for_org, file, indent=4)
+
+            # fetch Show directory
+            show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+            file_path_of_show = list(Path(show_path).rglob("*"))
+            show_file_name=os.path.basename(file_path_of_show[0])
+
+            # put edited shots to show
+            with open(filePathNameWExt) as file:
+                self.list_for_shots = json.load(file)
+
+            with open(file_path_of_show[0], 'r') as file:
+                self.list_for_shows = json.load(file)
+                print(self.list_for_shows)
+
+            for updateinfo in self.list_for_shows:
+                for key, val in updateinfo.items():
+                    if val==show_name:
+                        updateinfo['Shots']=self.list_for_shots
+                        print("Shot is updated")
+                        break
+                    else:
+                        print("There's no show named -> " + str(show_name))
+                        break
+        
+            with open(file_path_of_show[0], 'w') as file:
+                json.dump(self.list_for_shows, file, indent=4)
+
+            # update asset file too
+            with open(asset_file_path_name_w_ext, 'r') as file:
+                self.list_for_assets = json.load(file)
+
+            for update_asset in self.list_for_assets:
+                for key,val in update_asset.items():
+                    for i in val:
+                        if i==asset_name:
+                            assets_list=update_asset[key]
+                            assets_list.remove(asset_name)
+                            assets_list.append(new_asset_name)
+                            update_asset[key]=assets_list
+                        else:
+                            pass
+
+            with open(asset_file_path_name_w_ext, 'w') as file:
+                json.dump(self.list_for_assets, file, indent=4)
+            
+        
+                
 class Asset(Template):
 
     def __init__(self, name: str, path: str) -> None:
@@ -709,7 +789,7 @@ class Asset(Template):
         return super().delete_directory(path, name)
 
         # isn't inherited from Template class
-    def create(self, category: str, name: str, path: str, file_json_name: str) -> None:
+    def create(self, name: str, category: str, path: str, file_json_name: str) -> None:
 
         self.category=category
         self.name=name
@@ -924,10 +1004,10 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 
 #ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
 #ShotFunc.get_single_info("AA",SHOT_DIR_PATH,"shot.json")
-#AssetFunc.get_single_info("Bread",ASSET_DIR_PATH,"ASSET_DB.json") 
+#AssetFunc.create("I love it","now",ASSET_DIR_PATH,"ASSETdb.json") 
 
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
-ShotFunc.delete_asset("l_c","wahtthefuck",SHOT_DIR_PATH,"shot.json","JuJu")
+ShotFunc.edit_asset_name("AA","Use pretty words","pretty wordsf",SHOT_DIR_PATH,"shot.json","ASSETdb.json","JuJu")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
