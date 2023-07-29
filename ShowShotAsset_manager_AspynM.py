@@ -548,7 +548,8 @@ class Shot(Template):
         with open(file_path_of_show[0], 'w') as file:
             json.dump(self.list_for_shows, file, indent=4)
 
-    
+
+    # ASSETS FUNC
     def create_or_add_assets(self, name:str, asset_name:str, path: str, file_json_name: str, asset_file_json_name:str, show_name: str):
         
         CAT=[]
@@ -629,6 +630,11 @@ class Shot(Template):
             with open(file_path_of_show[0], 'w') as file:
                 json.dump(self.list_for_shows, file, indent=4)
 
+    def delete_asset(self,name:str,asset_name:str,path:str,file_json_name:str,show_name:str):
+        pass
+
+    def edit_asset(self,name:str,asset_name:str,new_asset_name:str,path:str,file_json_name:str,show_name:str):
+        pass
 
 
 class Asset(Template):
