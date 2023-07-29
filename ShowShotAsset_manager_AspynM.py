@@ -6,6 +6,7 @@ import shutil
 from typing import List, Dict
 from pathlib import Path
 import time
+import zipfile
 
 
 # ======== Global Variables for DIRECTORY (FOLDERS) ========
@@ -29,7 +30,8 @@ ASSET_NAME= "AssetDB"
 # ======== CLASSes Starts Here ========
 
 ### Parent Class ### for command functions
-class Template:
+
+class Base_Directory_and_Info:
     def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
         self.duration=duration
@@ -86,7 +88,7 @@ class Template:
 
 
 ### SHOW class (child class) ###
-class Show(Template):
+class Show(Base_Directory_and_Info):
 
     def __init__(self, name: str, duration: int, status: str, path: str):
         super().__init__(name, duration, status, path)
@@ -175,7 +177,6 @@ class Show(Template):
 
 
      ## EDIT data part ##
-
     # edit name info
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
         filePathNameWExt = path + file_json_name
@@ -238,7 +239,7 @@ class Show(Template):
 
 
 ### SHOT class (child of the abstract class) ###
-class Shot(Template):
+class Shot(Base_Directory_and_Info):
     def __init__(self, name: str, duration: int, status: str, path: str):
         super().__init__(name, duration, status, path)
         self.name=SHOT_NAME
@@ -806,7 +807,7 @@ class Shot(Template):
         
             
                 
-class Asset(Template):
+class Asset(Common_Function):
 
     def __init__(self, name: str, path: str) -> None:
         self.name=name
@@ -1016,14 +1017,35 @@ class Asset(Template):
             print("There is not category named "+category)
             print("")
 
-# ========================================================
-__name__ == "__main__"
+class ZIP:
+    def __init__(self, path:str, file_name:str):
+        self.path=path
+        self.file_name=file_name
 
-# =============== Variables to CALL CLASS ================== #
-# you can use these or create on your own
-ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
-ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
-AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
+    def archive(self,path:str, file_name:str):
+        file_ext=path+file_name
+        zip_filename = f"{self.file_name}.zip"
+        #with zipfile.ZipFile(file_ext, "w") as zip_file:
+        if not os.path.exists(file_ext):
+            print(f"The file '{file_ext}' does not exist.")
+            return
+
+        # Create the ZIP archive
+        with zipfile.ZipFile(zip_filename, "w") as zip_file:
+            # Add the file to the ZIP archive
+            zip_file.write(file_ext, os.path.basename(file_ext))
+            print(f"The file '{file_ext}' has been zipped as '{zip_filename}'.")
+        #shutil.rmtree(file_ext)
+
+# ========================================================
+if __name__ == "__main__":
+
+    # =============== Variables to CALL CLASS ================== #
+    # you can use these or create on your own
+    ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
+    ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
+    AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
+    ArchiveFunc=ZIP(SHOW_DIR_PATH,SHOW_NAME)
 
 # ======== Use this line below to create DIRECTORY ======== #
     # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
@@ -1031,3 +1053,5 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
+
+ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
