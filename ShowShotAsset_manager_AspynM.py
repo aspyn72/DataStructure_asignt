@@ -1047,7 +1047,7 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 #AssetFunc.create("I love it","now",ASSET_DIR_PATH,"ASSETdb.json") 
 
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
-ShotFunc.find_shots_by_asset("simple",SHOT_DIR_PATH,"shot.json")
+#ShotFunc.find_shots_by_asset("simple",SHOT_DIR_PATH,"shot.json")
 #ShotFunc.create_or_add_assets("l_c","simple",SHOT_DIR_PATH,"shot.json","ASSETdb.json","JuJu")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
