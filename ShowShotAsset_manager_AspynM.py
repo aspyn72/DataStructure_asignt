@@ -773,6 +773,31 @@ class Shot(Template):
 
             with open(asset_file_path_name_w_ext, 'w') as file:
                 json.dump(self.list_for_assets, file, indent=4)
+    
+    # get asset and shot info seesion
+
+    def find_assets_by_shot(self,name:str,path:str,file_json_name:str):
+
+        CAT=[]
+        filePathNameWExt = path + file_json_name
+
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        # To get the desired info  
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if val==name:
+                    print("")
+                    print("----------------------Asset List---------------------------")                    
+                    print("Shot '"+str(name)+"' asset list: "+str(deletedinfo['Asset']))
+                    print("-----------------------------------------------------------")
+                    print("")
+                else:
+                    pass
+
+    def find_shots_by_asset(self,asset_name:str,path:str,file_json_name:str):
+        pass
             
         
                 
@@ -1007,7 +1032,7 @@ AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME)
 #AssetFunc.create("I love it","now",ASSET_DIR_PATH,"ASSETdb.json") 
 
 #ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
-ShotFunc.edit_asset_name("AA","Use pretty words","pretty wordsf",SHOT_DIR_PATH,"shot.json","ASSETdb.json","JuJu")
+ShotFunc.find_assets_by_shot("AA",SHOT_DIR_PATH,"shot.json")
 
 #AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
 #AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
