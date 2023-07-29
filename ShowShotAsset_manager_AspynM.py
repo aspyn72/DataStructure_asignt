@@ -24,9 +24,11 @@ ASSET_DIR_PATH  = SHOW_DIR_PATH + SHOW_NAME + "/"
 ASSET_NAME= "AssetDB"
 # =======================================================
 
+
+
 # ======== CLASSes Starts Here ========
 
-### Parent Class ###
+### Parent Class ### for command functions
 class Template:
     def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
@@ -46,8 +48,60 @@ class Template:
     def delete_directory(self, path: str, name: str) -> None:
         shutil.rmtree(path+name)
 
+        
+    # Read the file you want and print all the content inside the file
+    def get_all_info(self, path: str, file_json_name: str ):
+         filePathNameWExt = path + file_json_name
+         with open(filePathNameWExt, 'r') as file:
+            self.list_to_print = json.load(file)
+            print("")
+            print("===== Get ALL information =====")
+            print("")
+            print(self.list_to_print)
+            print("")
+            print("============ END =============")
+            print("")
+
+    # Read the file and print the data you want to check
+    def get_single_info(self, name: str, path: str, file_json_name: str):
+        filePathNameWExt = path + file_json_name
+        with open(filePathNameWExt, 'r') as file:
+            self.list_for_infor = json.load(file)
+
+        for sinfo in self.list_for_infor:
+            for key, val in sinfo.items():
+                if val==name:
+                    print("")
+                    print("===== Get information =====")
+                    print("")
+                    print(sinfo)
+                    print("")
+                    print("===== END =====")
+                    print("")
+                    break
+                else:
+                    print("There's nothing named "+name)
+                    break
+        
+
+
+### SHOW class (child class) ###
+class Show(Template):
+
+    def __init__(self, name: str, duration: int, status: str, path: str):
+        super().__init__(name, duration, status, path)
+        self.name=SHOW_NAME
+        self.path=SHOW_DIR_PATH
+
+    # DIRECTORY part
+    def make_directory(self, path: str, name: str):
+        return super().make_directory(path, name)
+    
+    def delete_directory(self, path: str, name: str) -> None:
+        return super().delete_directory(path, name)
+    
     # CREATE shows or shots and will ADD to .json file
-    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str) -> None:
+    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
         data = {
                     "Name": name,
                     "Time Duration": duration,
@@ -89,6 +143,7 @@ class Template:
         print("=== data that exists in the file so far ===")
         print(self.list_for_org)
 
+
     # delete specific data from .json file
     def delete(self, name: str, path: str, file_json_name: str):
         filePathNameWExt = path + file_json_name
@@ -109,42 +164,17 @@ class Template:
          # Update the content of .json file which removed desired show(or shot) data
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
-        
-    # Read the file you want and print all the content inside the file
-    def get_all_info(self, path: str, file_json_name: str ):
-         filePathNameWExt = path + file_json_name
-         with open(filePathNameWExt, 'r') as file:
-            self.list_to_print = json.load(file)
-            print("")
-            print("===== Get ALL information =====")
-            print("")
-            print(self.list_to_print)
-            print("")
-            print("============ END =============")
-            print("")
 
-    # Read the file and print the data you want to check
+    
+    ## INFO part
+    def get_all_info(self, path: str, file_json_name: str):
+        return super().get_all_info(path, file_json_name)
+
     def get_single_info(self, name: str, path: str, file_json_name: str):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
-            self.list_for_infor = json.load(file)
+        return super().get_single_info(name, path, file_json_name)
 
-        for sinfo in self.list_for_infor:
-            for key, val in sinfo.items():
-                if val==name:
-                    print("")
-                    print("===== Get information =====")
-                    print("")
-                    print(sinfo)
-                    print("")
-                    print("===== END =====")
-                    print("")
-                    break
-                else:
-                    print("There's nothing named "+name)
-                    break
-        
-    ## EDIT data part ##
+
+     ## EDIT data part ##
 
     # edit name info
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
@@ -206,45 +236,6 @@ class Template:
             json.dump(self.list_for_org, file, indent=4)
 
 
-### SHOW class (child class) ###
-class Show(Template):
-
-    def __init__(self, name: str, duration: int, status: str, path: str):
-        super().__init__(name, duration, status, path)
-        self.name=SHOW_NAME
-        self.path=SHOW_DIR_PATH
-
-    # DIRECTORY part
-    def make_directory(self, path: str, name: str):
-        return super().make_directory(path, name)
-    
-    def delete_directory(self, path: str, name: str) -> None:
-        return super().delete_directory(path, name)
-    
-    # Create and Delete Show Part
-    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str):
-        return super().create(name, duration, status, path, file_json_name)
-    
-    def delete(self, name: str, path: str, file_json_name: str):
-        return super().delete(name, path, file_json_name)
-    
-    ## INFO part
-    def get_all_info(self, path: str, file_json_name: str):
-        return super().get_all_info(path, file_json_name)
-
-    def get_single_info(self, name: str, path: str, file_json_name: str):
-        return super().get_single_info(name, path, file_json_name)
-
-    ## EDIT part
-    def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
-        return super().edit_name(path, file_json_name, name, new_name)
-    
-    def edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int):
-        return super().edit_duration(path, file_json_name, name, new_duration)
-    
-    def edit_status(self, path: str, file_json_name: str, name: str, new_status: str):
-        return super().edit_status(path, file_json_name, name, new_status)
-
 
 ### SHOT class (child of the abstract class) ###
 class Shot(Template):
@@ -259,9 +250,8 @@ class Shot(Template):
     def delete_directory(self, path: str, name: str) -> None:
         return super().delete_directory(path, name)
     
-    def create(self, name: str, duration: int, status: str, show_name: str, path: str, file_json_name: str):
+    def create(self, name: str, duration: int, status: str, path: str, file_json_name: str, show_name: str):
         self.show_name=show_name
-        cate=""
         
         data = {
                     "Name": name,
@@ -338,6 +328,7 @@ class Shot(Template):
             json.dump(self.list_for_shows, file, indent=4)
 
         return self.list_for_shots
+    
     
     def delete(self, name: str, path: str, file_json_name: str,show_name: str):
 
@@ -814,7 +805,6 @@ class Shot(Template):
         print("-------------------------------------------------------") 
         
             
-        
                 
 class Asset(Template):
 
@@ -835,9 +825,7 @@ class Asset(Template):
         self.name=name
         self.asset_list_cate=[]
         CAT=[]
-        
         asset_data = {category:self.asset_list_cate}
-
         filePathNameWExt = path + file_json_name
         
         # check if .json file already exists
@@ -858,7 +846,6 @@ class Asset(Template):
                         
                         with open(filePathNameWExt,mode= "w") as file:
                             json.dump(self.list_for_org,file,indent=4)
-
                     else:
                         print("category doesn't exist")
                         break
@@ -895,6 +882,7 @@ class Asset(Template):
 
         return asset_data
     
+
     # DELETE
     def delete_whole_category(self, category: str, path: str, file_json_name: str):
 
@@ -966,11 +954,13 @@ class Asset(Template):
     
         with open(filePathNameWExt, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)'''
+    
 
+    ## GET INFO part
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
     
-    
+
     def get_single_asset_info(self, name: str, path: str, file_json_name: str):
         CAT=[]
         filePathNameWExt = path + file_json_name
@@ -1041,17 +1031,3 @@ AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
 ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
 AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
 # ========================================================== #
-
-#ShowFunc.create("JuJu",23,"done",SHOW_DIR_PATH,"showDB.json")
-#ShotFunc.get_single_info("AA",SHOT_DIR_PATH,"shot.json")
-#AssetFunc.create("I love it","now",ASSET_DIR_PATH,"ASSETdb.json") 
-
-#ShowFunc.create("Show",12,"done",SHOW_DIR_PATH,"show.json")
-#ShotFunc.find_shots_by_asset("simple",SHOT_DIR_PATH,"shot.json")
-#ShotFunc.create_or_add_assets("l_c","simple",SHOT_DIR_PATH,"shot.json","ASSETdb.json","JuJu")
-
-#AssetFunc.create("Costume","Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")
-#AssetFunc.get_all_info(ASSET_DIR_PATH,"ASSET_DB.json")
-#AssetFunc.create("","devil",ASSET_DIR_PATH,"ASSETdb.json")
-
-#AssetFunc.delete("Princess Dress",ASSET_DIR_PATH,"ASSET_DB.json")'''
