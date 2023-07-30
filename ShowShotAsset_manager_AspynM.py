@@ -31,7 +31,7 @@ ASSET_NAME= "AssetDB"
 
 ### Parent Class ### for command functions
 
-class Base_Directory_and_Info:
+class Base_for_Directory_and_Info:
     def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
         self.duration=duration
@@ -50,7 +50,7 @@ class Base_Directory_and_Info:
     def delete_directory(self, path: str, name: str) -> None:
         shutil.rmtree(path+name)
 
-        
+    
     # Read the file you want and print all the content inside the file
     def get_all_info(self, path: str, file_json_name: str ):
          filePathNameWExt = path + file_json_name
@@ -88,7 +88,7 @@ class Base_Directory_and_Info:
 
 
 ### SHOW class (child class) ###
-class Show(Base_Directory_and_Info):
+class Show(Base_for_Directory_and_Info):
 
     def __init__(self, name: str, duration: int, status: str, path: str):
         super().__init__(name, duration, status, path)
@@ -239,7 +239,7 @@ class Show(Base_Directory_and_Info):
 
 
 ### SHOT class (child of the abstract class) ###
-class Shot(Base_Directory_and_Info):
+class Shot(Base_for_Directory_and_Info):
     def __init__(self, name: str, duration: int, status: str, path: str):
         super().__init__(name, duration, status, path)
         self.name=SHOT_NAME
@@ -807,7 +807,7 @@ class Shot(Base_Directory_and_Info):
         
             
                 
-class Asset(Common_Function):
+class Asset(Base_for_Directory_and_Info):
 
     def __init__(self, name: str, path: str) -> None:
         self.name=name
@@ -1017,25 +1017,35 @@ class Asset(Common_Function):
             print("There is not category named "+category)
             print("")
 
-class ZIP:
+
+# for archiving
+class ZIP_TO_ARCHIVE():
     def __init__(self, path:str, file_name:str):
         self.path=path
         self.file_name=file_name
 
     def archive(self,path:str, file_name:str):
         file_ext=path+file_name
-        zip_filename = f"{self.file_name}.zip"
+        zip_filename = f"{file_name}.zip"
+        print(file_name+"     "+file_ext+"     "+zip_filename)
+        # to get upper directory path
+        show_path = osPath.dirname(path)
+        print("=====show_file_name=======")
+        print(show_path)
+        print("==========================")
+        
         #with zipfile.ZipFile(file_ext, "w") as zip_file:
-        if not os.path.exists(file_ext):
+        if not osPath.exists(file_ext):
             print(f"The file '{file_ext}' does not exist.")
             return
+        
+        shutil.make_archive(zip_filename[:-4], "zip", path, file_name)
+        '''with zipfile.ZipFile(zip_filename, "w") as zip_file:
+            zip_file.write(file_ext, file_name)
+            print(f"The file '{file_ext}' has been zipped as '{zip_filename}'.")'''
+        shutil.move(zip_filename,show_path)
+        shutil.rmtree(file_ext)
 
-        # Create the ZIP archive
-        with zipfile.ZipFile(zip_filename, "w") as zip_file:
-            # Add the file to the ZIP archive
-            zip_file.write(file_ext, os.path.basename(file_ext))
-            print(f"The file '{file_ext}' has been zipped as '{zip_filename}'.")
-        #shutil.rmtree(file_ext)
 
 # ========================================================
 if __name__ == "__main__":
@@ -1045,13 +1055,13 @@ if __name__ == "__main__":
     ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
     ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
     AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
-    ArchiveFunc=ZIP(SHOW_DIR_PATH,SHOW_NAME)
+    ArchiveFunc=ZIP_TO_ARCHIVE(TEMP_DIR_PATH,TEMP_NAME)
 
-# ======== Use this line below to create DIRECTORY ======== #
-    # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
-    # You can create show (or shot) folder for different shows (or shots) as many as you want
-ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
-AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
-# ========================================================== #
-
-ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
+    # ======== Use this line below to create DIRECTORY ======== #
+        # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
+        # You can create show (or shot) folder for different shows (or shots) as many as you want
+    #ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
+    #AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
+    # ========================================================== #
+    #ShotFunc.create_or_add_assets()
+    ArchiveFunc.archive(TEMP_DIR_PATH,TEMP_NAME)
