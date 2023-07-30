@@ -1020,6 +1020,7 @@ class Asset(Base_for_Directory_and_Info):
 
 # for archiving
 class ZIP_TO_ARCHIVE():
+
     def __init__(self, path:str, file_name:str):
         self.path=path
         self.file_name=file_name
@@ -1030,9 +1031,7 @@ class ZIP_TO_ARCHIVE():
         print(file_name+"     "+file_ext+"     "+zip_filename)
         # to get upper directory path
         show_path = osPath.dirname(path)
-        print("=====show_file_name=======")
         print(show_path)
-        print("==========================")
         
         #with zipfile.ZipFile(file_ext, "w") as zip_file:
         if not osPath.exists(file_ext):
@@ -1064,4 +1063,5 @@ if __name__ == "__main__":
     #AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
     # ========================================================== #
     #ShotFunc.create_or_add_assets()
-    ArchiveFunc.archive(TEMP_DIR_PATH,TEMP_NAME)
+    #ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
+    ShotFunc.get_all_info(SHOT_DIR_PATH,'shot.json')
