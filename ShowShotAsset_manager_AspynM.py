@@ -298,7 +298,7 @@ class Shot(Base_for_Directory_and_Info):
 
             # fetch ShowDB file name
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-        file_path_of_show = list(Path(show_path).rglob("*"))
+        file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
         print("=====show_file_name=======")
         print(show_path)
@@ -354,7 +354,7 @@ class Shot(Base_for_Directory_and_Info):
 
          # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-        file_path_of_show = list(Path(show_path).rglob("*"))
+        file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
         print("=====show_file_name=======")
         print(show_path)
@@ -411,7 +411,7 @@ class Shot(Base_for_Directory_and_Info):
         
         # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-        file_path_of_show = list(Path(show_path).rglob("*"))
+        file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
         print("=====show_file_name=======")
         print(show_path)
@@ -461,7 +461,7 @@ class Shot(Base_for_Directory_and_Info):
         
         # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-        file_path_of_show = list(Path(show_path).rglob("*"))
+        file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
         print("=====show_file_name=======")
         print(show_path)
@@ -512,7 +512,7 @@ class Shot(Base_for_Directory_and_Info):
         
         # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-        file_path_of_show = list(Path(show_path).rglob("*"))
+        file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
 
         # put edited shots to show
@@ -589,7 +589,7 @@ class Shot(Base_for_Directory_and_Info):
 
             # fetch Show directory
             show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-            file_path_of_show = list(Path(show_path).rglob("*"))
+            file_path_of_show = list(Path(show_path).glob("*.json"))
             show_file_name=os.path.basename(file_path_of_show[0])
             print("=====show_file_name=======")
             print(show_path)
@@ -651,7 +651,7 @@ class Shot(Base_for_Directory_and_Info):
 
             # fetch Show directory
             show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-            file_path_of_show = list(Path(show_path).rglob("*"))
+            file_path_of_show = list(Path(show_path).glob("*.json"))
             show_file_name=os.path.basename(file_path_of_show[0])
             print("=====show_file_name=======")
             print(show_path)
@@ -724,7 +724,7 @@ class Shot(Base_for_Directory_and_Info):
 
             # fetch Show directory
             show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
-            file_path_of_show = list(Path(show_path).rglob("*"))
+            file_path_of_show = list(Path(show_path).glob("*.json"))
             show_file_name=os.path.basename(file_path_of_show[0])
 
             # put edited shots to show
@@ -936,26 +936,7 @@ class Asset(Base_for_Directory_and_Info):
         print("=======Check if it's deleted=======")
         print(self.list_for_org)
         
-    # EDIT - why do we need this...?
-    '''def edit_asset(self, path: str, file_json_name: str, name: str, new_name: str, category:str):
-
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
-            self.list_for_org = json.load(file)
-
-        for deletedinfo in self.list_for_org:
-            for key, val in deletedinfo.items():
-                if val==name:
-                    deletedinfo[key]=new_name
-                    print("Asset is updated")
-                    break
-                else:
-                    print("There's nothing named "+str(name))
-                    break
-    
-        with open(filePathNameWExt, 'w') as file:
-            json.dump(self.list_for_org, file, indent=4)'''
-    
+    # EDIT - we don't need this in my script / use delete->create func
 
     ## GET INFO part
     def get_all_info(self, path: str, file_json_name: str):
@@ -1032,19 +1013,24 @@ class ZIP_TO_ARCHIVE():
         # to get upper directory path
         show_path = osPath.dirname(path)
         print(show_path)
-        
-        #with zipfile.ZipFile(file_ext, "w") as zip_file:
+
         if not osPath.exists(file_ext):
             print(f"The file '{file_ext}' does not exist.")
             return
         
         shutil.make_archive(zip_filename[:-4], "zip", path, file_name)
-        '''with zipfile.ZipFile(zip_filename, "w") as zip_file:
-            zip_file.write(file_ext, file_name)
-            print(f"The file '{file_ext}' has been zipped as '{zip_filename}'.")'''
         shutil.move(zip_filename,show_path)
         shutil.rmtree(file_ext)
+    
+    def read_zip_file(self, file_name:str, path:str, zip_filename:str):
+        dir_path=path+zip_filename
+        file_path=path+zip_filename+'/'+file_name
 
+        with zipfile.ZipFile(dir_path) as myzip:
+            with myzip.open(file_path) as myfile:
+                print(myfile.read())
+    
+    
 
 # ========================================================
 if __name__ == "__main__":
@@ -1059,9 +1045,9 @@ if __name__ == "__main__":
     # ======== Use this line below to create DIRECTORY ======== #
         # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
         # You can create show (or shot) folder for different shows (or shots) as many as you want
-    #ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
-    #AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
-    # ========================================================== #
-    #ShotFunc.create_or_add_assets()
-    #ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
-    ShotFunc.get_all_info(SHOT_DIR_PATH,'shot.json')
+    ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
+    AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
+    # ========================================================== #)
+   # ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
+    ArchiveFunc.read_zip_file('SHOT.json',SHOW_DIR_PATH,'ShowTitle.zip')
+    #AssetFunc.create('pants',"dress",ASSET_DIR_PATH,'ASSET.json')
