@@ -27,8 +27,7 @@ ASSET_NAME= "AssetDB"
 
 # ======== CLASSes Starts Here ========
 
-### Parent Class ### for command functions
-
+### Parent Class ### for Directory_and_Info functions (common for all classes)
 class Base_for_Directory_and_Info:
     def __init__(self, name : str, duration : int, status:str, path:str) -> None:
         self.name = name
@@ -436,7 +435,9 @@ class Shot(Base_for_Directory_and_Info):
                     print("Time Duration is updated")
                     break
                 else:
+                    print("=======================================")
                     print("There's nothing named "+str(name))
+                    print("=======================================")
                     break
     
         with open(file_path_name_ext, 'w') as file:
@@ -818,7 +819,9 @@ class Asset(Base_for_Directory_and_Info):
             for deletedinfo in self.list_for_org:
                 for key, val in deletedinfo.items():
                     if key==category:
+                        print("   ")
                         print("category exists")
+                        print("   ")
                         CAT.append("NoNeedtoProcedd")
                         val.append(name)
                         deletedinfo[category]=val
@@ -855,6 +858,7 @@ class Asset(Base_for_Directory_and_Info):
         # Print results
         print("=== data that exists in the file so far ===")
         print(self.list_for_org)
+        print("   ")
 
         return asset_data
     
@@ -874,7 +878,9 @@ class Asset(Base_for_Directory_and_Info):
                     self.list_for_org.remove(deletedinfo)
                     print("It's deleted")
                 else:
+                    print("   ")
                     print("There's nothing named " + category)
+                    print("   ")
                     break
 
          # Update the content of .json file which removed desired show(or shot) data
@@ -933,9 +939,10 @@ class Asset(Base_for_Directory_and_Info):
                         print("=======Asset in Category========")
                         print("   ")
                         print( "[ " + str(name) + " ] is in the [ " + str(key) + " ] category.")
+                        print("   ")
                         print("=================================")
                     else:
-                        print("-")
+                        print("")
 
         if CAT==[]:
             print("There is no asset named "+str(name))
@@ -983,7 +990,6 @@ class ZIP_TO_ARCHIVE():
     def archive(self,path:str, file_name:str):
         file_ext=path+file_name
         zip_filename = f"{file_name}.zip"
-        print(file_name+"     "+file_ext+"     "+zip_filename)
         # to get upper directory path
         show_path = osPath.dirname(path)
         print(show_path)
@@ -1011,7 +1017,6 @@ class ZIP_TO_ARCHIVE():
 
 
 
-
 # ========================================================
 if __name__ == "__main__":
 
@@ -1027,4 +1032,6 @@ if __name__ == "__main__":
         # You can create show (or shot) folder for different shows (or shots) as many as you want
     ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
     AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
-    # ========================================================== #)
+    # ========================================================== #
+    
+   
