@@ -2,6 +2,15 @@
 
 <br>
 
+# Index
+- Introduction
+- Class Structure
+- Usage
+- JSON File Example
+- Project Structure
+
+<br>
+
 # Introduction
 
 This project provides a database management system for organizing and managing show, shot, and asset data. It allows you to create, update, delete, and get information about shows, shots, and assets. Then it stores all the data in JSON files.
@@ -9,14 +18,15 @@ This project provides a database management system for organizing and managing s
 The system consists of the following classes:
 
 - **`Base_for_Directory_and_Info`**: A parent class that provides common functionalities which are "create directory" and "get information".
-- **`Show`**: A child class of **Base_for_Directory_and_Info** that represents a show. It provides methods for managing show data, such as creating shows, getting information about shows, and editing show details.
-- **`Shot`**: A child of **Base_for_Directory_and_Info** that represents a shot. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
-- **`Asset`**: A child of **Base_for_Directory_and_Info** that represents a asset. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
-- **`Zip_to_Archive`**: Independent class that represents zip file. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
+- **`Show`**: A child class of **Base_for_Directory_and_Info** that represents a show. It provides methods for managing show data, such as creating shows, getting information about shows, editing show details, and etc.
+- **`Shot`**: A child of **Base_for_Directory_and_Info** that represents a shot. It provides methods for managing shot data, such as creating shots, getting information about shots, editing shot details, and etc.
+- **`Asset`**: A child of **Base_for_Directory_and_Info** that represents a asset. It provides methods for managing asset data, such as creating assets, getting information about assets, and etc.
+- **`Zip_to_Archive`**: Independent class that represents zip file. It provides methods for managing shot data, such as archiving data, and getting information in the zipped file
 
 <br>
 
-### [ Class Structure ]
+# Class Structure
+
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------------------------+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+----------------+
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Base_for_Director_and_Info |
@@ -36,15 +46,6 @@ The system consists of the following classes:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;+------+
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ <font size=1>interact</font> ___| &nbsp;&nbsp;| ___<font size=1>interact</font> ___|
-
-<br>
-<br>
-
-
-# Index
-- Usage
-- JSON File Example
-- Project Structure
 
 <br>
 <br>
@@ -112,7 +113,7 @@ Belows are the functions you can use
 Belows are the functions (that are only used for Show class) you can use
 
 > `create(name: str, duration: int, status: str, path: str, file_json_name: str)`: 
-   <br> - Creates the data of show or shot with the specified details as a dictionary form and adds it to the JSON file.
+   <br> - Creates the data of show with the specified details as a dictionary form and adds it to the JSON file.
    <br> - You should put **name**, **duration**, and **status** of the show or shot. Then, put the **path** where you want to (did) save JSON file and name of the JSON file ( you must put '**.json**' at the end of the name ).
 
 > `delete(name: str, path: str, file_json_name: str)`:
@@ -137,6 +138,8 @@ Belows are the functions (that are only used for Shot class) you can use
 > `create(name: str, duration: int, status: str, path: str, file_json_name: str)`: 
    <br> - Creates the data of show or shot with the specified details as a dictionary form and adds it to the JSON file.
    <br> - You should put **name**, **duration**, and **status** of the show or shot. Then, put the **path** where you want to (did) save JSON file and name of the JSON file ( you must put '**.json**' at the end of the name ).
+
+> `delete(self, name: str, path: str, file_json_name: str,show_name: str):`
 
 
 <font size="4.5">**Example Usage:**</font>
@@ -164,11 +167,15 @@ ShowFunc.delete("ShowTitle", SHOW_DIR_PATH, "ShowDB.json")
 
 # JSON File Example
 
-- **`Base_for_Directory_and_Info`**: A parent class that provides common functionalities which are "create directory" and "get information".
-- **`Show`**: A child class of **Base_for_Directory_and_Info** that represents a show. It provides methods for managing show data, such as creating shows, getting information about shows, and editing show details.
-- **`Shot`**: A child of **Base_for_Directory_and_Info** that represents a shot. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
-- **`Asset`**: A child of **Base_for_Directory_and_Info** that represents a asset. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
-- **`ZIP_TO_ARCHIVE`**: Independent class that represents zip file. It provides methods for managing shot data, such as creating shots, getting information about shots, and editing shot details.
+- **`Order to Use`**: 
+<br> STEP 1 ) Create **SHOW** data first 
+<br>STEP 2 ) Create **ASSET** data for the show 
+<br>STEP 3 ) Create **SHOT** data for the show
+
+- **`Show JSON File`**: A child class of details.
+- **`Shot JSON File`**: A child of **Base_for_Directory_and_Info** details.
+- **`Asset JSON File`**: A child of **Base_for_Directory_and_Info** details.
+
 
 <br>
 

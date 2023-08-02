@@ -981,7 +981,7 @@ class Asset(Base_for_Directory_and_Info):
 
 
 # for archiving
-class ZIP_TO_ARCHIVE():
+class Zip_to_Archieve():
 
     def __init__(self, path:str, file_name:str):
         self.path=path
@@ -1025,7 +1025,7 @@ if __name__ == "__main__":
     ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
     ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
     AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
-    ArchiveFunc=ZIP_TO_ARCHIVE(TEMP_DIR_PATH,TEMP_NAME)
+    ArchiveFunc=Zip_to_Archieve(TEMP_DIR_PATH,TEMP_NAME)
 
     # ======== Use this line below to create DIRECTORY ======== #
         # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
