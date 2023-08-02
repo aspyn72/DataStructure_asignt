@@ -3,9 +3,7 @@ from os import path as osPath
 import sys
 import json
 import shutil
-from typing import List, Dict
 from pathlib import Path
-import time
 import zipfile
 
 
@@ -53,8 +51,8 @@ class Base_for_Directory_and_Info:
     
     # Read the file you want and print all the content inside the file
     def get_all_info(self, path: str, file_json_name: str ):
-         filePathNameWExt = path + file_json_name
-         with open(filePathNameWExt, 'r') as file:
+         file_path_name_ext = path + file_json_name
+         with open(file_path_name_ext, 'r') as file:
             self.list_to_print = json.load(file)
             print("")
             print("===== Get ALL information =====")
@@ -66,8 +64,8 @@ class Base_for_Directory_and_Info:
 
     # Read the file and print the data you want to check
     def get_single_info(self, name: str, path: str, file_json_name: str):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_infor = json.load(file)
 
         for sinfo in self.list_for_infor:
@@ -110,32 +108,32 @@ class Show(Base_for_Directory_and_Info):
                     "Status": status,
                     "Shots":[]
                     }
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
         
         # check if .json file already exists
-        if osPath.exists(filePathNameWExt):
+        if osPath.exists(file_path_name_ext):
             # in case the file already exists
             print(".json file exists")
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_org = json.load(file)
             # we put the data(Dictionary) in .json file here
             self.list_for_org.append(data)
-            with open(filePathNameWExt,mode= "w") as file:
+            with open(file_path_name_ext,mode= "w") as file:
                 json.dump(self.list_for_org,file,indent=4)
         else:
             # in case the file doesn't exist
             print("created .json file")
             self.list_for_org=[]
 
-            with open(filePathNameWExt,'w') as file:
+            with open(file_path_name_ext,'w') as file:
                 json.dump(self.list_for_org,file)
 
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_org = json.load(file)
 
             # we put the data(Dictionary) in .json file here
             self.list_for_org.append(data)
-            with open(filePathNameWExt,mode= "w") as file:
+            with open(file_path_name_ext,mode= "w") as file:
                 json.dump(self.list_for_org,file,indent=4)
 
         # Print results
@@ -148,9 +146,9 @@ class Show(Base_for_Directory_and_Info):
 
     # delete specific data from .json file
     def delete(self, name: str, path: str, file_json_name: str):
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
@@ -164,7 +162,7 @@ class Show(Base_for_Directory_and_Info):
                     break
 
          # Update the content of .json file which removed desired show(or shot) data
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
 
     
@@ -179,8 +177,8 @@ class Show(Base_for_Directory_and_Info):
      ## EDIT data part ##
     # edit name info
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -193,14 +191,14 @@ class Show(Base_for_Directory_and_Info):
                     print("There's nothing named "+name)
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
 
     # edit time duration info - recieve name to pick out the desirable data dictionary
     def edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int):
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -214,13 +212,13 @@ class Show(Base_for_Directory_and_Info):
                     print("There's nothing named "+name)
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
     
     # edit status info
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str ):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -233,7 +231,7 @@ class Show(Base_for_Directory_and_Info):
                     print("There's nothing named" + name)
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
 
 
@@ -261,32 +259,32 @@ class Shot(Base_for_Directory_and_Info):
                     "Asset":[]
                     }
                     
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
         
         # check if .json file already exists
-        if osPath.exists(filePathNameWExt):
+        if osPath.exists(file_path_name_ext):
             # in case the file already exists
             print(".json file exists")
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
             # we put the data(Dictionary) in .json file here
             self.list_for_shots.append(data)
-            with open(filePathNameWExt,mode= "w") as file:
+            with open(file_path_name_ext,mode= "w") as file:
                 json.dump(self.list_for_shots,file,indent=4)
         else:
             # in case the file doesn't exist
             print("created .json file")
             self.list_for_shots=[]
 
-            with open(filePathNameWExt,'w') as file:
+            with open(file_path_name_ext,'w') as file:
                 json.dump(self.list_for_shots,file)
 
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
             # we put the data(Dictionary) in .json file here
             self.list_for_shots.append(data)
-            with open(filePathNameWExt,mode= "w") as file:
+            with open(file_path_name_ext,mode= "w") as file:
                 json.dump(self.list_for_shots,file,indent=4)
 
         # Print results
@@ -300,14 +298,9 @@ class Shot(Base_for_Directory_and_Info):
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
         file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
-        print("=====show_file_name=======")
-        print(show_path)
-        print(show_file_name)
-        print(file_path_of_show[0])
-        print("==========================")
 
         # put shots to show
-        with open(filePathNameWExt) as file:
+        with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
         with open(file_path_of_show[0], 'r') as file:
@@ -333,9 +326,9 @@ class Shot(Base_for_Directory_and_Info):
     
     def delete(self, name: str, path: str, file_json_name: str,show_name: str):
 
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
@@ -349,21 +342,16 @@ class Shot(Base_for_Directory_and_Info):
                     break
 
          # Update the content of .json file which removed desired show(or shot) data
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
 
          # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
         file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
-        print("=====show_file_name=======")
-        print(show_path)
-        print(show_file_name)
-        print(file_path_of_show[0])
-        print("==========================")
 
         # put edited shots to show
-        with open(filePathNameWExt) as file:
+        with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
         with open(file_path_of_show[0], 'r') as file:
@@ -392,8 +380,8 @@ class Shot(Base_for_Directory_and_Info):
  
     ## EDIT part
     def edit_name(self, path: str, file_json_name: str, name: str, new_name: str,show_name: str):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -406,21 +394,16 @@ class Shot(Base_for_Directory_and_Info):
                     print("There's nothing named "+name)
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
         
         # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
         file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
-        print("=====show_file_name=======")
-        print(show_path)
-        print(show_file_name)
-        print(file_path_of_show[0])
-        print("==========================")
 
         # put edited shots to show
-        with open(filePathNameWExt) as file:
+        with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
         with open(file_path_of_show[0], 'r') as file:
@@ -442,8 +425,8 @@ class Shot(Base_for_Directory_and_Info):
 
     
     def edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int,show_name: str):
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -456,21 +439,16 @@ class Shot(Base_for_Directory_and_Info):
                     print("There's nothing named "+str(name))
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
         
         # fetch Show directory
         show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
         file_path_of_show = list(Path(show_path).glob("*.json"))
         show_file_name=os.path.basename(file_path_of_show[0])
-        print("=====show_file_name=======")
-        print(show_path)
-        print(show_file_name)
-        print(file_path_of_show[0])
-        print("==========================")
 
         # put edited shots to show
-        with open(filePathNameWExt) as file:
+        with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
         with open(file_path_of_show[0], 'r') as file:
@@ -493,8 +471,8 @@ class Shot(Base_for_Directory_and_Info):
         
     def edit_status(self, path: str, file_json_name: str, name: str, new_status: str,show_name: str):
 
-        filePathNameWExt = path + file_json_name
-        with open(filePathNameWExt, 'r') as file:
+        file_path_name_ext = path + file_json_name
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         for deletedinfo in self.list_for_org:
@@ -507,7 +485,7 @@ class Shot(Base_for_Directory_and_Info):
                     print("There's nothing named "+str(name))
                     break
     
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
         
         # fetch Show directory
@@ -516,7 +494,7 @@ class Shot(Base_for_Directory_and_Info):
         show_file_name=os.path.basename(file_path_of_show[0])
 
         # put edited shots to show
-        with open(filePathNameWExt) as file:
+        with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
         with open(file_path_of_show[0], 'r') as file:
@@ -541,11 +519,11 @@ class Shot(Base_for_Directory_and_Info):
     def create_or_add_assets(self, name:str, asset_name:str, path: str, file_json_name: str, asset_file_json_name:str, show_name: str):
         
         CAT=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
         asset_file_path_name_w_ext=path+asset_file_json_name
         print(asset_file_path_name_w_ext)
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         with open(asset_file_path_name_w_ext, 'r') as file:
@@ -584,7 +562,7 @@ class Shot(Base_for_Directory_and_Info):
                         print("There's nothing named "+str(asset_name))
                         break
         
-            with open(filePathNameWExt, 'w') as file:
+            with open(file_path_name_ext, 'w') as file:
                 json.dump(self.list_for_org, file, indent=4)
 
             # fetch Show directory
@@ -598,7 +576,7 @@ class Shot(Base_for_Directory_and_Info):
             print("==========================")
 
             # put edited shots to show
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                     self.list_for_shots = json.load(file)
 
             with open(file_path_of_show[0], 'r') as file:
@@ -620,9 +598,9 @@ class Shot(Base_for_Directory_and_Info):
 
     def delete_asset(self,name:str,asset_name:str,path:str,file_json_name:str,show_name:str):
         CAT=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # To get the desired info  
@@ -646,7 +624,7 @@ class Shot(Base_for_Directory_and_Info):
             print("check if you had typo")      
             print("")     
         
-            with open(filePathNameWExt, 'w') as file:
+            with open(file_path_name_ext, 'w') as file:
                 json.dump(self.list_for_org, file, indent=4)
 
             # fetch Show directory
@@ -660,7 +638,7 @@ class Shot(Base_for_Directory_and_Info):
             print("==========================")
 
             # put edited shots to show
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                     self.list_for_shots = json.load(file)
 
             with open(file_path_of_show[0], 'r') as file:
@@ -682,11 +660,11 @@ class Shot(Base_for_Directory_and_Info):
 
     def edit_asset_name(self,name:str,asset_name:str,new_asset_name:str,path:str,file_json_name:str,asset_file_json_name:str ,show_name:str):
         CAT=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
         asset_file_path_name_w_ext=path+asset_file_json_name
         print(asset_file_path_name_w_ext)
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         with open(asset_file_path_name_w_ext, 'r') as file:
@@ -719,7 +697,7 @@ class Shot(Base_for_Directory_and_Info):
                                 else:
                                     print("There's nothing named "+str(asset_name))
         
-            with open(filePathNameWExt, 'w') as file:
+            with open(file_path_name_ext, 'w') as file:
                 json.dump(self.list_for_org, file, indent=4)
 
             # fetch Show directory
@@ -728,7 +706,7 @@ class Shot(Base_for_Directory_and_Info):
             show_file_name=os.path.basename(file_path_of_show[0])
 
             # put edited shots to show
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_shots = json.load(file)
 
             with open(file_path_of_show[0], 'r') as file:
@@ -770,9 +748,9 @@ class Shot(Base_for_Directory_and_Info):
 
     def find_assets_by_shot(self,name:str,path:str,file_json_name:str):
 
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # To get the desired info  
@@ -789,9 +767,9 @@ class Shot(Base_for_Directory_and_Info):
 
     def find_shots_by_asset(self,asset_name:str,path:str,file_json_name:str):
 
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # To get the desired info  
@@ -827,14 +805,14 @@ class Asset(Base_for_Directory_and_Info):
         self.asset_list_cate=[]
         CAT=[]
         asset_data = {category:self.asset_list_cate}
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
         
         # check if .json file already exists
-        if osPath.exists(filePathNameWExt):
+        if osPath.exists(file_path_name_ext):
             # in case the file already exists
             print(".json file exists")
             
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_org = json.load(file)
 
             for deletedinfo in self.list_for_org:
@@ -845,7 +823,7 @@ class Asset(Base_for_Directory_and_Info):
                         val.append(name)
                         deletedinfo[category]=val
                         
-                        with open(filePathNameWExt,mode= "w") as file:
+                        with open(file_path_name_ext,mode= "w") as file:
                             json.dump(self.list_for_org,file,indent=4)
                     else:
                         print("category doesn't exist")
@@ -854,7 +832,7 @@ class Asset(Base_for_Directory_and_Info):
             if CAT==[]:
                 self.asset_list_cate.append(name)
                 self.list_for_org.append(asset_data)
-                with open(filePathNameWExt,mode= "w") as file:
+                with open(file_path_name_ext,mode= "w") as file:
                     json.dump(self.list_for_org,file,indent=4)
 
         else:
@@ -862,22 +840,19 @@ class Asset(Base_for_Directory_and_Info):
             print("created .json file")
             self.list_for_org=[]
 
-            with open(filePathNameWExt,'w') as file:
+            with open(file_path_name_ext,'w') as file:
                 json.dump(self.list_for_org,file)
 
-            with open(filePathNameWExt) as file:
+            with open(file_path_name_ext) as file:
                 self.list_for_org = json.load(file)
 
             # we put the data(Dictionary) in .json file here
             self.asset_list_cate.append(name)
             self.list_for_org.append(asset_data)
-            with open(filePathNameWExt,mode= "w") as file:
+            with open(file_path_name_ext,mode= "w") as file:
                 json.dump(self.list_for_org,file,indent=4)
 
         # Print results
-        print("=== Dictionary Show(or Shot) data ====")
-        print(name+" info is created and added")
-        print(asset_data)
         print("=== data that exists in the file so far ===")
         print(self.list_for_org)
 
@@ -887,9 +862,9 @@ class Asset(Base_for_Directory_and_Info):
     # DELETE
     def delete_whole_category(self, category: str, path: str, file_json_name: str):
 
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
@@ -903,15 +878,15 @@ class Asset(Base_for_Directory_and_Info):
                     break
 
          # Update the content of .json file which removed desired show(or shot) data
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
         
     
     def delete_single_asset(self, name: str, category:str, path: str, file_json_name: str):
         self.val_list=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
@@ -930,7 +905,7 @@ class Asset(Base_for_Directory_and_Info):
                     print("category named " + str(category))
                     
          # Update the content of .json file which removed desired show(or shot) data
-        with open(filePathNameWExt, 'w') as file:
+        with open(file_path_name_ext, 'w') as file:
             json.dump(self.list_for_org, file, indent=4)
         
         print("=======Check if it's deleted=======")
@@ -941,13 +916,12 @@ class Asset(Base_for_Directory_and_Info):
     ## GET INFO part
     def get_all_info(self, path: str, file_json_name: str):
         return super().get_all_info(path, file_json_name)
-    
 
     def get_single_asset_info(self, name: str, path: str, file_json_name: str):
         CAT=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # To get the desired info  
@@ -972,9 +946,9 @@ class Asset(Base_for_Directory_and_Info):
 
     def get_single_category_info ( self, category: str, path: str, file_json_name: str):
         CAT=[]
-        filePathNameWExt = path + file_json_name
+        file_path_name_ext = path + file_json_name
 
-        with open(filePathNameWExt, 'r') as file:
+        with open(file_path_name_ext, 'r') as file:
             self.list_for_org = json.load(file)
 
         # Modify the data structure to remove the desired dictionary
@@ -1026,11 +1000,17 @@ class ZIP_TO_ARCHIVE():
         dir_path=path+zip_filename
         file_path=path+zip_filename+'/'+file_name
 
-        with zipfile.ZipFile(dir_path) as myzip:
-            with myzip.open(file_path) as myfile:
-                print(myfile.read())
-    
-    
+        with zipfile.ZipFile(dir_path, 'r') as zip_file:
+            try:
+                # Read the contents of the file_inside_zip.txt without extracting it
+                with zip_file.open(file_name) as file_in_zip:
+                    file_content = file_in_zip.read().decode('utf-8')
+                print(file_content)
+            except KeyError:
+                print(f"The file '{file_name}' does not exist in the ZIP archive.")
+
+
+
 
 # ========================================================
 if __name__ == "__main__":
@@ -1048,6 +1028,3 @@ if __name__ == "__main__":
     ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
     AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
     # ========================================================== #)
-   # ArchiveFunc.archive(SHOW_DIR_PATH,SHOW_NAME)
-    ArchiveFunc.read_zip_file('SHOT.json',SHOW_DIR_PATH,'ShowTitle.zip')
-    #AssetFunc.create('pants',"dress",ASSET_DIR_PATH,'ASSET.json')
