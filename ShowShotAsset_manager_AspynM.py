@@ -987,9 +987,9 @@ class Zip_to_Archieve():
         self.path=path
         self.file_name=file_name
 
-    def archive(self,path:str, file_name:str):
-        file_ext=path+file_name
-        zip_filename = f"{file_name}.zip"
+    def archive(self,path:str, folder_name:str):
+        file_ext=path+folder_name
+        zip_filename = f"{folder_name}.zip"
         # to get upper directory path
         show_path = osPath.dirname(path)
         print(show_path)
@@ -998,22 +998,22 @@ class Zip_to_Archieve():
             print(f"The file '{file_ext}' does not exist.")
             return
         
-        shutil.make_archive(zip_filename[:-4], "zip", path, file_name)
+        shutil.make_archive(zip_filename[:-4], "zip", path, folder_name)
         shutil.move(zip_filename,show_path)
         shutil.rmtree(file_ext)
     
-    def read_zip_file(self, file_name:str, path:str, zip_filename:str):
+    def read_zip_file(self, folder_name:str, path:str, zip_filename:str):
         dir_path=path+zip_filename
-        file_path=path+zip_filename+'/'+file_name
+        file_path=path+zip_filename+'/'+folder_name
 
         with zipfile.ZipFile(dir_path, 'r') as zip_file:
             try:
                 # Read the contents of the file_inside_zip.txt without extracting it
-                with zip_file.open(file_name) as file_in_zip:
+                with zip_file.open(folder_name) as file_in_zip:
                     file_content = file_in_zip.read().decode('utf-8')
                 print(file_content)
             except KeyError:
-                print(f"The file '{file_name}' does not exist in the ZIP archive.")
+                print(f"The file '{folder_name}' does not exist in the ZIP archive.")
 
 
 
