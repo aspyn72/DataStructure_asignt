@@ -216,15 +216,9 @@ Belows are the functions you can use only for Asset class
 >-&nbsp;Print the information of an category and all the assets inside.<br>
 >-&nbsp;You should put **category name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
 
->`How To Edit `<br>
->`Asset`<br>
->-&nbsp;Delete the asset you want to rename and create (or add) new asset.<br>
->-&nbsp;[ delete_single_asset ] -> [ create ]<br>
->
->`Category`<br>
->-&nbsp;Delete the category you want to rename and create (or add) new category. Then put assets inside new category.<br>
->-&nbsp;[ delete_whole_category ] -> [ create ] <br>
-><br>
+>`edit_asset(self, name: str, new_name: str, category:str, path: str, file_json_name: str, shot_file_json_name: str, show_name:str):`<br>
+>-&nbsp;Updates the name of an asset to a new asset name.
+>-&nbsp;You should put **asset name**, **new asset name**,**asset's category name**,**path** where you saved asset's JSON file, the **name of the asset's JSON file** ( you must put '**.json**' at the end ), the **name of the shot's JSON file** ( you must put '**.json**' at the end ), and it's **show name** in order.
 
 ### `Zip_to_Archieve`
 
