@@ -27,15 +27,16 @@ The system consists of the following classes:
 
 # Class Structure
 
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------------------------+
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+----------------+
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Base_for_Director_and_Info |
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Zip_to_Archive |
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+>&nbsp;<br>
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------------------------+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+----------------+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Base_for_Director_and_Info |
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Zip_to_Archive |
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 +-----------------------------+
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+----------------+
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+----------------+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;|
+<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V
 <br> &nbsp;&nbsp; +------+
 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;+------+
 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;+------+
@@ -45,7 +46,8 @@ The system consists of the following classes:
 <br>  &nbsp;&nbsp; +------+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;+------+
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ <font size=1>interact</font> ___| &nbsp;&nbsp;| ___<font size=1>interact</font> ___|
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ <font size=1>interact</font> ___| &nbsp;&nbsp;| ___<font size=1>interact</font> ___| <br>
+>&nbsp;<br>
 
 
 <br>
@@ -70,12 +72,15 @@ Set the global variables according to your desired directory structure.
 ## 2. Set Variables to Call classes
 
 Instantiate the `Show`, `Shot`, `Asset`, and `ZIP_TO_ARCHIVE` classes with appropriate parameters.
-   ```python
-   ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
-   ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
-   AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
-   ArchiveFunc=Zip_to_Archive(TEMP_DIR_PATH,TEMP_NAME)
-   ```
+   ><br>
+   >ShowFunc=Show("FilmTitle",1000,"Done",SHOW_DIR_PATH)
+   >ShotFunc=Shot("ShotName",100,"Done",SHOT_DIR_PATH)
+   >AssetFunc=Asset("AssetName",ASSET_DIR_PATH)
+   >ArchiveFunc=Zip_to_Archive(TEMP_DIR_PATH,TEMP_NAME)
+   >
+   ><br>
+   
+   <br>
   Codes above are already written on the main script, so you can use those.
 
 <br>
@@ -84,7 +89,7 @@ Instantiate the `Show`, `Shot`, `Asset`, and `ZIP_TO_ARCHIVE` classes with appro
 
 ###  `Base_for_Directory_and_Info` (Common Functions)
 
-Belows are the functions you can use
+Belows are the functions you can use in Shot, Show, and Asset classes
 
    > `make_directory(path: str, name: str)`:  
     - Creates a directory with the given path and name.
@@ -111,7 +116,7 @@ Belows are the functions you can use
 
 ## `Show`
 
-Belows are the functions (that are only used for Show class) you can use
+Belows are the functions you can use only for Show class
 
 > `create(name: str, duration: int, status: str, path: str, file_json_name: str)`: 
    <br> - Creates the data of show with the specified details as a dictionary form and adds it to the JSON file.
@@ -135,46 +140,117 @@ Belows are the functions (that are only used for Show class) you can use
 
 ## `Shot`
 
-Belows are the functions (that are only used for Shot class) you can use
+Belows are the functions you can use only for Shot class
+
 > `create(self, name: str, duration: int, status: str, path: str, file_json_name: str, show_name: str):`
-   <br> - Creates the data of shot with the specified details as a dictionary form and adds it to the JSON file.
-   <br> - You should put **name**, **duration**, and **status** of the shot. Then, put the **path** where you want to (did) save JSON file, the **name of the JSON file** ( you must put '**.json**' at the end of the name ), and **show name** to store shot data into the specific show.
-   <br> - You don't use this function to put assets in the shot here
+<br> - Creates the data of shot with the specified details as a dictionary form and adds it to the JSON file.
+<br> - You should put **name**, **duration**, and **status** of the shot. Then, put the **path** where you want to (did) save JSON file, the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ), and **show name** to store shot data into the specific show.
+<br> - You don't use this function to put assets in the shot here
 
 > `delete(self, name: str, path: str, file_json_name: str, show_name: str):`
 <br> - Deletes a shot information with the given name from the JSON file.
-   <br> - You should put **name** of the show or shot. Then, put the **path** where you saved JSON file, the **name of the JSON file** ( you must put '**.json**' at the end of the name ), and **show name** to delete the shot data from the specific show.
+<br> - You should put **name** of the show or shot. Then, put the **path** where you saved JSON file, the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ), and **show name** to delete the shot data from the specific show.
 
 >`edit_name(self, path: str, file_json_name: str, name: str, new_name: str,show_name: str):`
 <br> - Updates the name of a shot with the given name to a new name.
-   <br> - You should put the **path** where you saved JSON file and the **name of the JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **original name** of the shot, the **new name** next to it, and **show name** of the show for which you want to update the shot data.
+<br> - You should put the **path** where you saved JSON file and the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **original name** of the shot, the **new name** next to it, and **show name** of the show for which you want to update the shot data.
 
 >`edit_duration(self, path: str, file_json_name: str, name: str, new_duration: int, show_name: str):`
 <br> - Updates the duration of a shot with the given name to new duration.
-<br> - You should put the **path** where you saved JSON file and the **name of the JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **name** of the shot, the **new duration** next to it, and **show name** of the show for which you want to update the shot data.
+<br> - You should put the **path** where you saved JSON file and the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **name** of the shot, the **new duration** next to it, and **show name** of the show for which you want to update the shot data.
 
 >`edit_status(self, path: str, file_json_name: str, name: str, new_status: str, show_name: str):`
 <br> - Updates the status of a shot with the given name to new status.
-<br> - You should put the **path** where you saved JSON file and the **name of the JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **name** of the shot, the **new status** next to it, and **show name** of the show for which you want to update the shot data.
+<br> - You should put the **path** where you saved JSON file and the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ). Then, put the **name** of the shot, the **new status** next to it, and **show name** of the show for which you want to update the shot data.
 
 >`create_or_add_assets(self, name:str, asset_name:str, path: str, file_json_name: str, asset_file_json_name:str, show_name: str):`
+<br> - Creates the data of assets with their categories as a dictionary form and adds it to a shot's JSON file.
+<br> - You should put **shot name**, **asset name**, **path** where you want to (did) save JSON file, the **name of the shot's JSON file** ( you must put '**.json**' at the end ), the **name of the asset's JSON file** to fetch the category of the asset ( you must put '**.json**' at the end ), and the **show name** of the show for which you want to update the shot data in order.
 
 >`delete_asset(self, name:str, asset_name:str, path:str, file_json_name:str, show_name:str):`
+>
+>-&nbsp;Deletes a asset information with the given name from the JSON file.<br>
+>-&nbsp;You should put **shot name**, **asset name**, **path** where you want to (did) save JSON file, the **name of the shot's JSON file** ( you must put '**.json**' at the end ), and the **show name** of the show for which you want to update the shot data in order.
 
->`edit_asset_name(self,name:str,asset_name:str,new_asset_name:str,path:str,file_json_name:str,asset_file_json_name:str ,show_name:str):`
+>`edit_asset_name(self, name:str, asset_name:str, new_asset_name:str, path:str, file_json_name:str, asset_file_json_name:str, show_name:str):`
+>
+>-&nbsp;Updates the name of a asset with the given name to new asset name.<br>
+>-&nbsp;You should put **shot name**, **asset name**, **new asset name**, **path** where you want to (did) save JSON file, the **name of the shot's JSON file** ( you must put '**.json**' at the end ), the **name of the asset's JSON file** to update ( you must put '**.json**' at the end ), and the **show name** of the show for which you want to update the shot data in order.
 
 >`find_assets_by_shot(self,name:str,path:str,file_json_name:str):`
+>
+>-&nbsp;Prints the information of asset(s) of a shot.<br>
+>-&nbsp;You should put the **name** of the shot, **path** where you saved shot's JSON file, and the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ).
 
 >`find_shots_by_asset(self,asset_name:str,path:str,file_json_name:str):`
+>
+>-&nbsp;Prints the information of shot(s) which have a specific asset.<br>
+>-&nbsp;You should put the **asset name**, **path** where you saved shot's JSON file, and the **name of the shot's JSON file** ( you must put '**.json**' at the end of the name ).
 
+## `Asset`
 
+Belows are the functions you can use only for Asset class
 
+>`create(self, name: str, category: str, path: str, file_json_name: str) -> None:`
+>
+>-&nbsp;Creates the data of assets and categories as a dictionary form and adds it to an asset's JSON file.
+<br> - You should put **asset name**, **asset category**, **path** where you want to (did) save asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
 
-<font size="4.5">**Example Usage:**</font>
+>`delete_whole_category(self, category: str, path: str, file_json_name: str):`
+>
+>-&nbsp;Deletes a category and assets inside with the given category name from the asset's JSON file.<br>
+>-&nbsp;You should put **category name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ).
+
+>`delete_single_asset(self, name: str, category:str, path: str, file_json_name: str):`
+>
+>-&nbsp;Deletes an asset with the given name from the asset's JSON file.<br>
+>-&nbsp;You should put **asset name**, **catergory name** where the asset is, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
+
+>`get_single_asset_info(self, name: str, path: str, file_json_name: str):`
+>
+>-&nbsp;Print the information of an asset and it's category.<br>
+>-&nbsp;You should put **asset name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
+
+>`get_single_category_info ( self, category: str, path: str, file_json_name: str):`
+>
+>-&nbsp;Print the information of an category and all the assets inside.<br>
+>-&nbsp;You should put **category name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
+
+>`How To Edit `<br>
+>`Asset`<br>
+>-&nbsp;Delete the asset you want to rename and create (or add) new asset.<br>
+>-&nbsp;[ delete_single_asset ] -> [ create ]<br>
+>
+>`Category`<br>
+>-&nbsp;Delete the category you want to rename and create (or add) new category. Then put assets inside new category.<br>
+>-&nbsp;[ delete_whole_category ] -> [ create ] <br>
+><br>
+
+### `Zip_to_Archieve`
+
+Belows are the functions you can use only for Zip_to_Archieve class
+
+>`archive(self,path:str, folder_name:str):`
+>
+>-&nbsp;Zip the folder you want.<br>
+>-&nbsp;You should put **path** where the directory exist, and the **folder name** in order.
+
+>`read_zip_file(self, folder_name:str, path:str, zip_filename:str)`
+>
+>-&nbsp;Read data in a zipped folder.<br>
+>-&nbsp;You should put **folder name**, **path** where the directory exist, and the **zip filename** in order.
+
+## `Example Usage`
+
 
 ```python
-# Create a show
+# Create Directory
+ShotFunc.make_directory(SHOT_DIR_PATH, SHOT_NAME)
+AssetFunc.make_directory(ASSET_DIR_PATH, ASSET_NAME)
+
+# Create a show, shot, asset
 ShowFunc.create("ShowTitle", 60, "InProgress", SHOW_DIR_PATH, "ShowDB.json")
+AssetFunc.
 
 # Get all show information
 ShowFunc.get_all_info(SHOW_DIR_PATH, "ShowDB.json")
@@ -195,7 +271,7 @@ ShowFunc.delete("ShowTitle", SHOW_DIR_PATH, "ShowDB.json")
 
 # JSON File Example
 
-- **`Order to Use`**: 
+- **`Order to create`**: 
 <br> STEP 1 ) Create **SHOW** data first 
 <br>STEP 2 ) Create **ASSET** data for the show 
 <br>STEP 3 ) Create **SHOT** data for the show
@@ -205,28 +281,6 @@ ShowFunc.delete("ShowTitle", SHOW_DIR_PATH, "ShowDB.json")
 - **`Asset JSON File`**: A child of **Base_for_Directory_and_Info** details.
 
 
-<br>
-
-<font size="4.5">**Example**</font>
-
-```python
-# Create a show
-ShowFunc.create("ShowTitle", 60, "InProgress", SHOW_DIR_PATH, "ShowDB.json")
-
-# Get all show information
-ShowFunc.get_all_info(SHOW_DIR_PATH, "ShowDB.json")
-
-# Get information for a specific show
-ShowFunc.get_single_info("ShowTitle", SHOW_DIR_PATH, "ShowDB.json")
-
-# Update the name of a show
-ShowFunc.edit_name(SHOW_DIR_PATH, "ShowDB.json", "Mimic", "New Name")
-
-# Delete a show
-ShowFunc.delete("ShowTitle", SHOW_DIR_PATH, "ShowDB.json")
-```
-
-<br>
 
 <br>
 
