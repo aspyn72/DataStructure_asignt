@@ -916,8 +916,7 @@ class Asset(Base_for_Directory_and_Info):
         
         print("=======Check if it's deleted=======")
         print(self.list_for_org)
-        
-    # EDIT - we don't need this in my script / use delete->create func
+
 
     ## GET INFO part
     def get_all_info(self, path: str, file_json_name: str):
@@ -979,6 +978,79 @@ class Asset(Base_for_Directory_and_Info):
             print("There is not category named "+category)
             print("")
 
+    def edit_asset(self, name: str, new_name: str, category:str, path: str, file_json_name: str, shot_file_json_name: str, show_name:str):
+        CAT=[]
+        file_path_name_ext = path + file_json_name
+        shot_file_path_name_ext = path + shot_file_json_name
+
+        with open(file_path_name_ext, 'r') as file:
+            self.list_for_org = json.load(file)
+
+        for deletedinfo in self.list_for_org:
+            for key, val in deletedinfo.items():
+                if key==category:
+                    list_we_want=deletedinfo[category]
+                    for asi in list_we_want:
+                        if asi==name:
+                            list_we_want.remove(name)
+                            list_we_want.append(new_name)
+                    break
+                else:
+                    print("There's nothing named "+name)
+                    break
+    
+        with open(file_path_name_ext, 'w') as file:
+            json.dump(self.list_for_org, file, indent=4)
+
+        # Update to shot.json
+        with open(shot_file_path_name_ext, 'r') as file:
+            self.list_for_sht = json.load(file)
+
+        for editinfo in self.list_for_sht:
+            for key,val in editinfo.items():
+                if key=="Asset":
+                    key_list=editinfo["Asset"]
+                    print(key_list)
+                    for key_dict in key_list:
+                        for key,val in key_dict.items():
+                            if val==name:
+                                if key==category:
+                                    key_dict[category]=new_name
+                                    print(key_dict[category])
+                                else:
+                                    print("-")
+                            else:
+                                print(" ")
+                else:
+                    print("")
+
+        with open(shot_file_path_name_ext, 'w') as file:
+            json.dump(self.list_for_sht, file, indent=4)
+
+        # fetch Show directory
+            show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+            file_path_of_show = list(Path(show_path).glob("*.json"))
+
+            # put edited shots to show
+            with open(file_path_of_show[0], 'r') as file:
+                self.list_for_shows = json.load(file)
+
+            for updateinfo in self.list_for_shows:
+                for key, val in updateinfo.items():
+                    if val==show_name:
+                        updateinfo['Shots']=self.list_for_sht
+                        print("Shot is updated")
+                        break
+                    else:
+                        print("There's no show named -> " + str(show_name))
+                        break
+        
+            with open(file_path_of_show[0], 'w') as file:
+                json.dump(self.list_for_shows, file, indent=4)
+
+
+
+
 
 # for archiving
 class Zip_to_Archieve():
@@ -1017,6 +1089,8 @@ class Zip_to_Archieve():
 
 
 
+
+
 # ========================================================
 if __name__ == "__main__":
 
@@ -1034,4 +1108,6 @@ if __name__ == "__main__":
     AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
     # ========================================================== #
     
-   
+    #AssetFunc.create("Tshirt","Costume",ASSET_DIR_PATH,"ASSET.json")
+    AssetFunc.edit_asset("Teddy bear","bear","Prop",ASSET_DIR_PATH,"ASSET.json","SHOT.json","Jurassic World")
+    #ShotFunc.create_or_add_assets("SC1_A","candy",SHOT_DIR_PATH,"SHOT.json","ASSET.json","Jurassic World")
