@@ -315,7 +315,7 @@ Please be careful with **typos** when you use functions.
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Asset": [ { category : asset } ] }
 
 - **`Asset JSON File`**: <br>
-: Edited asset will be automatically udated on shot's JSON file as well.
+: Edited asset will be automatically updated on shot's JSON file as well.
 >{ category 1 : [ Asset 1, Asset 2 ... ] }
 
 
