@@ -1108,6 +1108,5 @@ if __name__ == "__main__":
     AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
     # ========================================================== #
     
-    #AssetFunc.create("Tshirt","Costume",ASSET_DIR_PATH,"ASSET.json")
-    AssetFunc.edit_asset("Teddy bear","bear","Prop",ASSET_DIR_PATH,"ASSET.json","SHOT.json","Jurassic World")
-    #ShotFunc.create_or_add_assets("SC1_A","candy",SHOT_DIR_PATH,"SHOT.json","ASSET.json","Jurassic World")
+    
+    
