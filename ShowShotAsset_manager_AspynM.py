@@ -950,7 +950,7 @@ class Asset(Base_for_Directory_and_Info):
             pass
 
 
-    def get_single_category_info ( self, category: str, path: str, file_json_name: str):
+    def get_single_category_info(self, category: str, path: str, file_json_name: str):
         CAT=[]
         file_path_name_ext = path + file_json_name
 
