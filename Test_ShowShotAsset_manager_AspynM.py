@@ -1,79 +1,11 @@
 import unittest
 import os
 import json
-from ShowShotAsset_manager_AspynM import Show, Shot, Asset
-import shutil
-
-# Define the unit tests
-class TestShowShotAssetManagement(unittest.TestCase):
-
-    def setUp(self):
-        # Create a test directory for the unit tests
-        self.test_dir = "/Users/moon/Desktop/" #"D:\TEST"
-        os.makedirs(self.test_dir, exist_ok=True)
-
-    def tearDown(self):
-        # Delete the test directory and its contents after the unit tests
-        pass
-        #shutil.rmtree(self.test_dir)
-
-    def test_show_creation(self):
-        # Create a show instance and check if the show folder is created
-        show = Show("ShowTitle", 1000, "Done", self.test_dir)
-        show.make_directory(show.path, show.name)
-        self.assertTrue(os.path.exists(show.path + show.name))
-
-    def test_shot_creation(self):
-        # Create a shot instance and check if the shot folder is created
-        shot = Shot("01_A", 100, "Done", self.test_dir)
-        shot.make_directory(shot.path, shot.name)
-        self.assertTrue(os.path.exists(shot.path + shot.name))
-
-    def test_asset_creation(self):
-        # Create a shot instance and check if the shot folder is created
-        asset = Asset("AssetDB", self.test_dir)
-        asset.make_directory(asset.path, asset.name)
-        self.assertTrue(os.path.exists(asset.path + asset.name))
-
-    def test_show_creation_json(self):
-        # Create a show instance and check if the show JSON file is created
-        show = Show("ShowTitle", 1000, "Done", self.test_dir)
-        show.create("Show1", 1000, "Done", show.path, "show_data.json")
-        self.assertTrue(os.path.exists(show.path + "show_data.json"))
-
-        # Check the content of the show JSON file
-        with open(show.path + "show_data.json") as file:
-            data = json.load(file)
-            self.assertEqual(len(data), 1)
-            self.assertEqual(data[0]["Name"], "Show1")
-
-    def test_shot_creation_json(self):
-        # Create a shot instance and check if the shot JSON file is created
-        shot = Shot("01_A", 100, "Done", self.test_dir)
-        shot.create("Shot1", 100, "Done", shot.path, "shot_data.json")
-        self.assertTrue(os.path.exists(shot.path + "shot_data.json"))
-
-        # Check the content of the shot JSON file
-        with open(shot.path + "shot_data.json") as file:
-            data = json.load(file)
-            self.assertEqual(len(data), 1)
-            self.assertEqual(data[0]["Name"], "Shot1")
-
-    # Add more unit tests for other functionalities
-
-'''# Run the unit tests
-if __name__ == '__main__':
-    unittest.main()'''
-
-
-################======================###############
-import unittest
-import os
-import json
 import time
 from ShowShotAsset_manager_AspynM import Base_for_Directory_and_Info, Show, Shot, Asset
 
 class TestBaseForDirectoryAndInfo(unittest.TestCase):
+
     def test_make_directory(self):
         # Test the make_directory function
         base_dir = "test_directory"
@@ -194,15 +126,16 @@ class TestShow(unittest.TestCase):
         # You can perform any setup tasks here.
         self.show_data = {
             "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
+            "duration": 200,
+            "status": "ongoing",
+            "Shots":["Will be automatically updated in real script"]
         }
-        self.show = Show("show_test_directory", self.show_data)
+        self.show = Show("Test Show", 200, "ongoing", self.show_data)
 
     def tearDown(self):
         # This method will be called after each test function in this class.
         # You can perform any cleanup tasks here.
-        self.show.delete_directory()
+        self.show.delete_directory(self.show_data,"Test Show")
 
     def test_create(self):
         # Test the create function in the Show class
@@ -244,8 +177,9 @@ class TestShow(unittest.TestCase):
         # Test the get_all_info function in the Show class
         show_data = {
             "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
+            "duration": 200,
+            "status": "ongoing",
+            "Shots":["Will be automatically updated in real script"]
         }
         show_obj = Show("show_test_directory", show_data)
 
@@ -259,8 +193,9 @@ class TestShow(unittest.TestCase):
         # Test the get_single_info function in the Show class
         show_data = {
             "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
+            "duration": 200,
+            "status": "ongoing",
+            "Shots":["Will be automatically updated in real script"]
         }
         show_obj = Show("show_test_directory", show_data)
 
@@ -275,8 +210,9 @@ class TestShow(unittest.TestCase):
         # Test the edit_name function in the Show class
         show_data = {
             "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
+            "duration": 200,
+            "status": "ongoing",
+            "Shots":["Will be automatically updated in real script"]
         }
         show_obj = Show("show_test_directory", show_data)
 
@@ -294,16 +230,74 @@ class TestShow(unittest.TestCase):
         # Check if the name attribute has been updated as expected
         self.assertEqual(updated_info['name'], new_name)
 
+class TestAsset(unittest.TestCase):
+    def setUp(self):
+        # This method will be called before each test function in this class.
+        # You can perform any setup tasks here.
+        self.asset_data = {"character": ["Asset 1"],
+                      "Prop":["Asset 2"]}
+        self.asset = Asset("show_test_directory", self.show_data)
+
+    def tearDown(self):
+        # This method will be called after each test function in this class.
+        # You can perform any cleanup tasks here.
+        self.show.delete_directory()
+
+    def test_make_directory(self):
+        pass
+
+    def test_delete_directory(self):
+        pass
+
+    def test_create(self):
+        pass
+
+    def test_delete_whole_category(self):
+        # Test the delete_whole_category function in the Asset class
+        asset_data = {"character": ["Asset 1"],
+                      "Prop":["Asset 2"]}
+        asset_obj = Asset("show_test_directory/asset_test_directory", asset_data)
+
+        # Assuming there are some assets in the asset directory
+        # You may also consider mocking this data or using other test techniques
+
+        # Call the delete_whole_category function
+        asset_obj.delete_whole_category()
+
+        # Verify that the asset directory has been deleted
+        self.assertFalse(os.path.exists("show_test_directory/asset_test_directory"))
+
+    def test_delete_single_asset(self):
+        pass
+
+    def test_get_single_asset_info(self):
+        # Test the get_single_asset_info function in the Asset class
+        asset_data = {"character": ["Asset 1"],
+                      "Prop":["Asset 2"]}
+        asset_obj = Asset("show_test_directory/asset_test_directory", asset_data)
+
+        # Assuming there's some data in the asset directory
+        # You may also consider mocking this data or using other test techniques
+
+        # Call the get_single_asset_info function
+        asset_info = asset_obj.get_single_asset_info()
+
+        # Verify that the asset_info returned matches the asset_data
+        self.assertEqual(asset_info, asset_data)
+
+time.sleep(1)
+
 class TestShot(unittest.TestCase):
     def setUp(self):
         # This method will be called before each test function in this class.
         # You can perform any setup tasks here.
-        self.show_data = {
-            "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
+        self.shot_data = {
+            "name": "Test Shot",
+            "duration": 24,
+            "status": "ongoing",
+            "Asset": [{"category - will be automatically filled from ASSET's JSON file":"asset - should be in ASSET's JSON file"}]
         }
-        self.show = Show("show_test_directory", self.show_data)
+        self.shot = Shot("show_test_directory", self.show_data)
 
     def tearDown(self):
         # This method will be called after each test function in this class.
@@ -314,8 +308,9 @@ class TestShot(unittest.TestCase):
         # Test the create function in the Shot class
         shot_data = {
             "name": "Test Shot",
-            "duration": "30 seconds",
-            "status": "completed"
+            "duration": 24,
+            "status": "ongoing",
+            "Asset": [{"category - will be automatically filled from ASSET's JSON file":"asset - should be in ASSET's JSON file"}]
         }
         shot_obj = Shot("show_test_directory/shot_test_directory", shot_data)
 
@@ -341,25 +336,18 @@ class TestShot(unittest.TestCase):
         # Test the find_assets_by_shot function in the Shot class
         shot_data = {
             "name": "Test Shot",
-            "duration": "30 seconds",
-            "status": "completed"
+            "duration": 24,
+            "status": "ongoing",
+            "Asset": [{"category - will be automatically filled from ASSET's JSON file":"asset - should be in ASSET's JSON file"}]
         }
         shot_obj = Shot("show_test_directory/shot_test_directory", shot_data)
 
         # Assuming there are some assets in the shot directory
         # You may also consider mocking this data or using other test techniques
-        asset_data1 = {
-            "name": "Asset 1",
-            "type": "character",
-            "description": "Asset 1 description"
-        }
+        asset_data1 = {"character": "Asset 1"}
         asset_obj1 = Asset("show_test_directory/shot_test_directory/asset_1", asset_data1)
 
-        asset_data2 = {
-            "name": "Asset 2",
-            "type": "prop",
-            "description": "Asset 2 description"
-        }
+        asset_data2 = {"prop": "Asset 2"}
         asset_obj2 = Asset("show_test_directory/shot_test_directory/asset_2", asset_data2)
 
         # Add the assets to the shot (you can use the create_or_add_assets function here)
@@ -376,73 +364,7 @@ class TestShot(unittest.TestCase):
         # Verify that the number of assets returned is correct
         self.assertEqual(len(assets_in_shot), 2)
 
-class TestAsset(unittest.TestCase):
-    def setUp(self):
-        # This method will be called before each test function in this class.
-        # You can perform any setup tasks here.
-        self.show_data = {
-            "name": "Test Show",
-            "duration": "2 hours",
-            "status": "ongoing"
-        }
-        self.show = Show("show_test_directory", self.show_data)
 
-    def tearDown(self):
-        # This method will be called after each test function in this class.
-        # You can perform any cleanup tasks here.
-        self.show.delete_directory()
-
-    def test_make_directory(self):
-        # ... Previous test case ...
-        pass
-
-    def test_delete_directory(self):
-        # ... Previous test case ...
-        pass
-
-    def test_create(self):
-        # ... Previous test case ...
-        pass
-
-    def test_delete_whole_category(self):
-        # Test the delete_whole_category function in the Asset class
-        asset_data = {
-            "name": "Test Asset",
-            "type": "character",
-            "description": "Test description"
-        }
-        asset_obj = Asset("show_test_directory/asset_test_directory", asset_data)
-
-        # Assuming there are some assets in the asset directory
-        # You may also consider mocking this data or using other test techniques
-
-        # Call the delete_whole_category function
-        asset_obj.delete_whole_category()
-
-        # Verify that the asset directory has been deleted
-        self.assertFalse(os.path.exists("show_test_directory/asset_test_directory"))
-
-    def test_delete_single_asset(self):
-        # ... Previous test case ...
-        pass
-
-    def test_get_single_asset_info(self):
-        # Test the get_single_asset_info function in the Asset class
-        asset_data = {
-            "name": "Test Asset",
-            "type": "character",
-            "description": "Test description"
-        }
-        asset_obj = Asset("show_test_directory/asset_test_directory", asset_data)
-
-        # Assuming there's some data in the asset directory
-        # You may also consider mocking this data or using other test techniques
-
-        # Call the get_single_asset_info function
-        asset_info = asset_obj.get_single_asset_info()
-
-        # Verify that the asset_info returned matches the asset_data
-        self.assertEqual(asset_info, asset_data)
 
 if __name__ == "__main__":
     unittest.main()
