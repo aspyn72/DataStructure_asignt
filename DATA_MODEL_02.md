@@ -91,6 +91,8 @@ The **`edit_name`, `edit_duration`, `edit_status`**, and **`edit_asset`** method
 
 The **`archive`** method zips folders in the specified directory path.
 
+<br>
+
 # 5. JSON File
 
 - **`Show JSON File`**<br>

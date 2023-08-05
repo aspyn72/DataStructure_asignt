@@ -225,7 +225,7 @@ Belows are the functions you can use only for Asset class
 >-&nbsp;Print the information of an asset and it's category.<br>
 >-&nbsp;You should put **asset name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
 
->**`get_single_category_info ( self, category: str, path: str, file_json_name: str)`**:
+>**`get_single_category_info( self, category: str, path: str, file_json_name: str)`**:
 >
 >-&nbsp;Print the information of an category and all the assets inside.<br>
 >-&nbsp;You should put **category name**, **path** where you saved asset's JSON file, and the **name of the asset's JSON file** ( you must put '**.json**' at the end ) in order.
