@@ -14,7 +14,7 @@ SHOT_NAME= "01_A"
 ASSET_DIR_PATH  = SHOW_DIR_PATH + SHOW_NAME + "/"
 ASSET_NAME= "AssetDB"
 
-class TestBaseForDirectoryAndInfo(unittest.TestCase):
+class TestCreateDirJSON(unittest.TestCase):
 
     def setUp(self):
         # Create a test directory for the unit tests
@@ -24,16 +24,13 @@ class TestBaseForDirectoryAndInfo(unittest.TestCase):
 
     def tearDown(self):
         # Delete the test directory and its contents after the unit tests
-        #shutil.rmtree(self.test_dir)
-        pass
+        shutil.rmtree(self.test_dir)
 
     def test_show_creation(self):
         # Create a show instance and check if the show folder is created
         show = Show("ShowTitle", 1000, "Done", self.test_dir)
+        show.path=SHOW_DIR_PATH
         show.make_directory(show.path, show.name)
-        print("=====+++++=====")
-        print(show.path)
-        print("=====+++++=====")
         self.assertTrue(os.path.exists(show.path + show.name))
 
     def test_shot_creation(self):
@@ -48,14 +45,12 @@ class TestBaseForDirectoryAndInfo(unittest.TestCase):
         asset = Asset("asset_DB", ASSET_DIR_PATH)
         asset.make_directory(asset.path, asset.name)
         self.assertTrue(os.path.exists(asset.path + asset.name))
-        print("=====+++++=====")
-        print(asset.path)
-        print("=====+++++=====")
 
     # JSON file -----
     def test_show_creation_json(self):
         # Create a show instance and check if the show JSON file is created
         show = Show("ShowTitle", 1000, "Done", self.test_dir)
+        show.path=SHOW_DIR_PATH
         show.create("Show1", 1000, "Done", show.path, "show_data.json")
         self.assertTrue(os.path.exists(show.path + "show_data.json"))
 
@@ -64,20 +59,6 @@ class TestBaseForDirectoryAndInfo(unittest.TestCase):
             data = json.load(file)
             self.assertEqual(len(data), 1)
             self.assertEqual(data[0]["Name"], "Show1")
-
-    def test_shot_creation_json(self):
-        # Create a shot instance and check if the shot JSON file is created
-        shot = Shot("01_A", 100, "Done", SHOT_DIR_PATH)
-        shot.path=SHOT_DIR_PATH
-        shot.create("Shot1", 100, "Done", shot.path, "shot_data.json","Show1")
-        self.assertTrue(os.path.exists(shot.path + "shot_data.json"))
-
-        # Check the content of the shot JSON file
-        with open(shot.path + "shot_data.json") as file:
-            data = json.load(file)
-            self.assertEqual(len(data), 1)
-            self.assertEqual(data[0]["Name"], "Shot1")
-
 
     def test_asset_creation_json(self):
         # Create a shot instance and check if the shot JSON file is created
@@ -92,8 +73,27 @@ class TestBaseForDirectoryAndInfo(unittest.TestCase):
             self.assertEqual(len(data), 1)
             self.assertEqual(data[0]["Category1"], ["Asset1"])
 
+        TestCreateDirJSON.test_shot_creation_json()
+
+    def test_shot_creation_json(self):
+    # Create a shot instance and check if the shot JSON file is created
+        shot = Shot("01_A", 100, "Done", SHOT_DIR_PATH)
+        shot.path=SHOT_DIR_PATH
+        shot.create("Shot1", 100, "Done", SHOT_DIR_PATH, "shot_data.json","Show1")
+        self.assertTrue(os.path.exists(shot.path + "shot_data.json"))
+
+        # Check the content of the shot JSON file
+        with open(shot.path + "shot_data.json") as file:
+            data = json.load(file)
+            self.assertEqual(len(data), 1)
+            self.assertEqual(data[0]["Name"], "Shot1")
+
+    
+
     # Add more unit tests for other functionalities
 
 # Run the unit tests
-#if __name__ == '__main__':
-#    unittest.main()
+if __name__ == '__main__':
+    unittest.main()
+
+    
