@@ -11,7 +11,7 @@ import zipfile
 # you should put your directory PATH and folder NAME here / I put random strings for example
 # ****** put Directory Path to save Show DB and Shot DB (folders and .json files) inside ****** #
 TEMP_DIR_PATH = "/Users/moon/Desktop/"
-TEMP_NAME = "Show_Shot_DB" 
+TEMP_NAME = "Show_Shot_Asset_DB" 
     # need to put show folder name here to avoid putting the path manually
 SHOW_DIR_PATH = TEMP_DIR_PATH + TEMP_NAME + "/"
 SHOW_NAME = "ShowTitle"
@@ -294,9 +294,9 @@ class Shot(Base_for_Directory_and_Info):
         print(self.list_for_shots)
 
             # fetch ShowDB file name
-        show_path = os.path.dirname(os.path.abspath(os.path.dirname(path)))
+        show_path = osPath.dirname(osPath.abspath(osPath.dirname(path)))
         file_path_of_show = list(Path(show_path).glob("*.json"))
-        show_file_name=os.path.basename(file_path_of_show[0])
+        #show_file_name=os.path.basename(file_path_of_show[0])
 
         # put shots to show
         with open(file_path_name_ext) as file:
@@ -1104,9 +1104,7 @@ if __name__ == "__main__":
     # ======== Use this line below to create DIRECTORY ======== #
         # Below will create Directory in hierarchy [Show_Shot_DB folder <- "Your_Show" folder <- "01_A" folder]
         # You can create show (or shot) folder for different shows (or shots) as many as you want
-    ShowFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
+    ShowFunc.make_directory(SHOW_DIR_PATH,SHOW_NAME)
+    ShotFunc.make_directory(SHOT_DIR_PATH,SHOT_NAME)
     AssetFunc.make_directory(ASSET_DIR_PATH,ASSET_NAME) 
     # ========================================================== #
-    
-    
-    
